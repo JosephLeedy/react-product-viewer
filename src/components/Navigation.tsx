@@ -8,7 +8,7 @@ import './Navigation.scss';
 
 export default () => {
     return (
-        <>
+        <header>
             <Navbar expand="lg" className="bg-body-tertiary">
                 <Container>
                     <Navbar.Brand as="h1" className="mb-0">Product Viewer</Navbar.Brand>
@@ -26,6 +26,6 @@ export default () => {
                     </Form>
                 </Container>
             </Navbar>
-        </>
+        </header>
     )
 }
