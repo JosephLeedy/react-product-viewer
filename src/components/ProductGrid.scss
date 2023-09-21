@@ -1,0 +1,84 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/variables";
+
+.product-grid > .row > .col {
+  display: flex;
+
+  &:nth-of-type(3n-1) {
+    justify-content: center;
+  }
+
+  &:nth-of-type(3n) {
+    justify-content: end;
+  }
+}
+
+.product-card {
+  width: 22rem;
+
+  .product-image {
+    width: initial;
+  }
+
+  .product-description {
+    display: none;
+    top: auto;
+    bottom: 50px;
+  }
+
+  .product-details:hover .product-description {
+    display: block;
+  }
+
+  .product-price {
+    .regular-price {
+      &, + .sale-price {
+        font-size: $font-size-base * 1.25;
+      }
+
+      &:has(+ .sale-price) {
+        font-size: $font-size-base * 1.1;
+        text-decoration: line-through;
+      }
+    }
+
+    .sale-price {
+      margin-left: 0.5rem;
+      font-weight: $font-weight-bold;
+    }
+  }
+
+  .favorite-product-button {
+    &:not(.active) {
+      &:hover {
+        .unfavorited-icon {
+          display: none;
+        }
+
+        .favorited-icon {
+          display: inline;
+        }
+      }
+      .favorited-icon {
+        display: none;
+      }
+    }
+
+    &.active {
+      &:hover {
+        .unfavorited-icon {
+          display: inline;
+        }
+
+        .favorited-icon {
+          display: none;
+        }
+      }
+
+      .unfavorited-icon {
+        display: none;
+      }
+    }
+  }
+}
