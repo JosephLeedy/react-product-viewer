@@ -10,12 +10,17 @@ import './ProductGrid.scss'
 export default () => {
     return (
         <Container as="main" className="product-grid mt-2 mt-md-5">
-            <Row xs={1} md={2} lg={3} className="g-2 g-md-5">
+            <Row>
+                <Col>
+                    <h2>Example Category</h2>
+                </Col>
+            </Row>
+            <Row xs={1} md={2} lg={3} className="mt-2 g-2 g-md-5">
                 {Array.from({ length: 9 }).map((_, index) => (
                     <Col key={index}>
                         <Card as="article" className="product-card">
                             <Card.Header as="header">
-                                <Card.Title as="h2" className="mb-0 lh-1 fs-4 text-center">Joust Duffle Bag</Card.Title>
+                                <Card.Title as="h3" className="mb-0 lh-1 fs-4 text-center">Joust Duffle Bag</Card.Title>
                             </Card.Header>
                             <Card.Body className="product-details">
                                 <figure className="mb-0 text-center">
