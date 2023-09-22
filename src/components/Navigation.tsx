@@ -16,7 +16,7 @@ export default () => {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Categories/>
                     </Navbar.Collapse>
-                    <Form>
+                    <Form role="search">
                         <InputGroup>
                             <InputGroup.Text>
                                 <Search/>
