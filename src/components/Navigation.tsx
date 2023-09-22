@@ -21,7 +21,7 @@ export default () => {
                             <InputGroup.Text>
                                 <Search/>
                             </InputGroup.Text>
-                            <Form.Control type="text" placeholder="Search"/>
+                            <Form.Control type="search" placeholder="Search"/>
                         </InputGroup>
                     </Form>
                 </Container>
