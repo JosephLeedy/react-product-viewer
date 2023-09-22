@@ -2,9 +2,11 @@ import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
+import Form from 'react-bootstrap/Form'
+import InputGroup from 'react-bootstrap/InputGroup'
 import Pagination from 'react-bootstrap/Pagination'
 import Row from 'react-bootstrap/Row'
-import {Cart4, Heart, HeartFill} from 'react-bootstrap-icons'
+import {Cart4, Filter, Heart, HeartFill} from 'react-bootstrap-icons'
 import './ProductGrid.scss'
 
 export default () => {
@@ -13,6 +15,16 @@ export default () => {
             <Row>
                 <Col>
                     <h2>Example Category</h2>
+                </Col>
+                <Col className="d-flex justify-content-end">
+                    <Form>
+                        <InputGroup>
+                            <InputGroup.Text>
+                                <Filter/>
+                            </InputGroup.Text>
+                            <Form.Control type="text" placeholder="Filter products" id="product-filter"/>
+                        </InputGroup>
+                    </Form>
                 </Col>
             </Row>
             <Row xs={1} md={2} lg={3} className="mt-2 g-2 g-md-5">
