@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Pagination from 'react-bootstrap/Pagination'
 import Row from 'react-bootstrap/Row'
-import {Cart4, Filter, Heart, HeartFill} from 'react-bootstrap-icons'
+import {Cart4, Filter, Heart, HeartFill, TagFill} from 'react-bootstrap-icons'
 import './ProductGrid.scss'
 
 export default () => {
@@ -32,7 +32,7 @@ export default () => {
                     <Col key={index}>
                         <Card as="article" className="product-card">
                             <Card.Header as="header">
-                                <Card.Title as="h3" className="mb-0 lh-1 fs-4 text-center">Joust Duffle Bag</Card.Title>
+                                <Card.Title as="h3" className="mb-0 lh-1 fs-4 text-center">{index % 3 === 0 && <TagFill className="me-2" title="On Sale"/>}Joust Duffle Bag</Card.Title>
                             </Card.Header>
                             <Card.Body className="product-details">
                                 <figure className="mb-0 text-center">
