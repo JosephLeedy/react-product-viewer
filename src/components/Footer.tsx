@@ -5,7 +5,7 @@ import {Github} from 'react-bootstrap-icons'
 
 export default () => {
     return (
-        <footer className="bg-body-tertiary mt-2 mt-lg-5 pt-4">
+        <footer className="bg-body-tertiary mt-2 mt-lg-5 pt-4" data-testid="page-footer">
             <Container>
                 <Row className="align-items-center">
                     <Col>

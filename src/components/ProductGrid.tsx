@@ -11,7 +11,7 @@ import './ProductGrid.scss'
 
 export default () => {
     return (
-        <Container as="main" className="product-grid mt-2 mt-md-5">
+        <Container as="main" className="product-grid mt-2 mt-md-5" data-testid="page-body">
             <Row>
                 <Col>
                     <h2>Example Category</h2>
