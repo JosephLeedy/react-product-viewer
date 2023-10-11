@@ -1,6 +1,10 @@
 .navbar-nav .nav-item.dropdown:hover > .dropdown-menu {
   display: block;
 
+  .dropdown-toggle::after {
+    rotate: -90deg;
+  }
+
   .dropdown-menu {
     top: 0;
     left: 100%;
