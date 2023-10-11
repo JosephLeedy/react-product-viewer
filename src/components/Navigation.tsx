@@ -3,7 +3,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import {Search} from 'react-bootstrap-icons'
-import Categories from './navigation/Categories'
+import CategoryMenu from './navigation/CategoryMenu'
 import './Navigation.scss';
 
 export default () => {
@@ -14,7 +14,7 @@ export default () => {
                     <Navbar.Brand as="h1" className="mb-0">Product Viewer</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
-                        <Categories/>
+                        <CategoryMenu/>
                     </Navbar.Collapse>
                     <Form role="search">
                         <InputGroup>
