@@ -46,14 +46,20 @@ export default function CategoryMenu(): React.JSX.Element {
         uriSegments: string[] = []
     ) => {
         const hasChildren: boolean = category.children_data.length > 0
+        const locationHashSegments: string[] = window.location.hash.substring(1).split('/')
+        let isActive: boolean
 
         uriSegments.push(convertTitleToUri(category.name))
+
+        isActive = uriSegments.every((uriSegment: string) => locationHashSegments.includes(uriSegment))
 
         return (
             <li key={category.id} className={`nav-item` + (hasChildren ? ' dropdown' : '')}>
                 <a href={`#${uriSegments.join('/')}`}
+                   onClick={handleMenuItemClick}
                    className={
                        `nav-link` + (hasChildren ? ' dropdown-toggle' : '') + (isDropdownItem ? ' dropdown-item' : '')
+                           + (isActive ? ' active' : '')
                    }
                    {...(hasChildren && {
                        "role": "button",
@@ -80,6 +86,33 @@ export default function CategoryMenu(): React.JSX.Element {
                 }
             </li>
         )
+    }
+    const setActiveMenuItems = (currentMenuItem: EventTarget & HTMLAnchorElement): void => {
+        let parentElement: Element | null = currentMenuItem.parentElement
+
+        Array.from(currentMenuItem.closest('.navbar-nav')!.getElementsByClassName('active'))
+        .forEach((activeMenuItem: Element): void => {
+            activeMenuItem.classList.remove('active')
+        })
+
+        currentMenuItem.classList.add('active')
+
+        while (parentElement) {
+            if (parentElement.matches('.navbar-nav')) {
+                break
+            }
+
+            if (parentElement.previousElementSibling?.matches('.nav-link')) {
+                parentElement.previousElementSibling.classList.add('active')
+            }
+
+            parentElement = parentElement.parentElement
+        }
+    }
+    const handleMenuItemClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
+        const currentMenuItem: EventTarget & HTMLAnchorElement = event.currentTarget
+
+        setActiveMenuItems(currentMenuItem)
     }
 
     useEffect((): void => {
