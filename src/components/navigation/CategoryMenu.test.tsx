@@ -1,5 +1,5 @@
 import {render, screen, waitForElementToBeRemoved} from '@testing-library/react'
-import {expect, SpyInstance} from 'vitest'
+import {SpyInstance} from 'vitest'
 import CategoryMenu, {Category} from './CategoryMenu'
 import categories from '../../test/data/categories.json'
 
@@ -35,10 +35,6 @@ describe('Category Menu Component', (): void => {
         render(<CategoryMenu/>)
 
         const categoryMenu: HTMLElement = await screen.findByTestId('category-menu')
-
-        expect(categoryMenu).toBeInTheDocument()
-        expect(categoryMenu.children).toHaveLength(categories.children_data.length)
-
         const categoryNames: string[] = []
         const getCategoryNames = (category: Category): void => {
             categoryNames.push(category.name)
@@ -50,6 +46,9 @@ describe('Category Menu Component', (): void => {
         let categoryName: string
 
         categories.children_data.forEach(getCategoryNames)
+
+        expect(categoryMenu).toBeInTheDocument()
+        expect(categoryMenu.children).toHaveLength(categories.children_data.length)
 
         for (categoryName of categoryNames) {
             expect(screen.getByText(categoryName)).toBeInTheDocument()
