@@ -81,9 +81,9 @@ export default function CategoryMenu(): React.JSX.Element {
         let parentElement: Element | null = currentMenuItem.parentElement
 
         Array.from(currentMenuItem.closest('.navbar-nav')!.getElementsByClassName('active'))
-        .forEach((activeMenuItem: Element): void => {
-            activeMenuItem.classList.remove('active')
-        })
+            .forEach((activeMenuItem: Element): void => {
+                activeMenuItem.classList.remove('active')
+            })
 
         currentMenuItem.classList.add('active')
 
