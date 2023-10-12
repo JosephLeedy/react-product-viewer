@@ -1,6 +1,7 @@
 import {render, screen, waitForElementToBeRemoved} from '@testing-library/react'
 import {SpyInstance} from 'vitest'
-import CategoryMenu, {Category} from './CategoryMenu'
+import CategoryMenu from './CategoryMenu'
+import Category from '../../types/Category'
 import categories from '../../test/data/categories.json'
 
 describe('Category Menu Component', (): void => {

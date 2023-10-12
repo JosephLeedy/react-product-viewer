@@ -1,17 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import Spinner from 'react-bootstrap/Spinner'
 import {convertTitleToUri} from '../../utilites/UriConverter'
-
-export interface Category {
-    id: number;
-    parent_id: number;
-    name: string;
-    is_active: boolean;
-    position: number;
-    level: number;
-    product_count: number;
-    children_data: Category[];
-}
+import Category from '../../types/Category'
 
 const defaultCategory: Category = {
     id: 0,
