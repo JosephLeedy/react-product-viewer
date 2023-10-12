@@ -1,3 +1,6 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
 .navbar-nav .nav-item.dropdown:hover > .dropdown-menu {
   display: block;
 
@@ -9,5 +12,9 @@
     top: 0;
     left: 100%;
     margin-top: -9px;
+  }
+
+  .nav-link.active, .nav-link:active {
+    color: var(--#{$prefix}dropdown-link-active-color);
   }
 }
