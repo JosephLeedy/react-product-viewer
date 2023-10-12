@@ -93,7 +93,7 @@ export default function CategoryMenu(): React.JSX.Element {
                     <Spinner animation="border" role="status" data-testid="categories-loading-indicator">
                         <span className="visually-hidden">Loading categories...</span>
                     </Spinner>
-                    :
+                :
                     <ul className="navbar-nav me-auto" data-testid="category-menu">
                         {rootCategory.children_data.map((category: Category) => renderCategoryMenuItems(category))}
                     </ul>
