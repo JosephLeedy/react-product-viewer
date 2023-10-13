@@ -15,15 +15,15 @@ export default () => {
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
                         <CategoryMenu/>
+                        <Form role="search">
+                            <InputGroup>
+                                <InputGroup.Text>
+                                    <Search/>
+                                </InputGroup.Text>
+                                <Form.Control type="search" placeholder="Search"/>
+                            </InputGroup>
+                        </Form>
                     </Navbar.Collapse>
-                    <Form role="search">
-                        <InputGroup>
-                            <InputGroup.Text>
-                                <Search/>
-                            </InputGroup.Text>
-                            <Form.Control type="search" placeholder="Search"/>
-                        </InputGroup>
-                    </Form>
                 </Container>
             </Navbar>
         </header>
