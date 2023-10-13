@@ -1,35 +1,11 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import Spinner from 'react-bootstrap/Spinner'
+import useCategories from '../../hooks/useCategories'
 import {convertTitleToUri} from '../../utilites/UriConverter'
 import Category from '../../types/Category'
 
-const defaultCategory: Category = {
-    id: 0,
-    parent_id: 0,
-    name: '',
-    is_active: true,
-    position: 0,
-    level: 1,
-    product_count: 0,
-    children_data: []
-};
-
 export default function CategoryMenu(): React.JSX.Element {
-    const [isLoadingCategories, setIsLoadingCategories] = useState<boolean>(false)
-    const [rootCategory, setRootCategory] = useState<Category>(defaultCategory)
-    const loadCategories = async (): Promise<void> => {
-        setIsLoadingCategories(true)
-
-        const response: Response = await fetch('/data/categories.json')
-
-        setIsLoadingCategories(false)
-
-        if (!response.ok) {
-            throw new Error(`Could not load categories. Response: ${response.status} ${response.statusText}`);
-        }
-
-        setRootCategory(await response.json())
-    }
+    const {isLoadingCategories, rootCategory} = useCategories()
     const renderCategoryMenuItems = (
         category: Category,
         isDropdownItem: boolean = false,
@@ -104,10 +80,6 @@ export default function CategoryMenu(): React.JSX.Element {
 
         setActiveMenuItems(currentMenuItem)
     }
-
-    useEffect((): void => {
-        loadCategories().catch(console.log)
-    }, [])
 
     return (
         <>
