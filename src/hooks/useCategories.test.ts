@@ -30,6 +30,6 @@ describe('useCategories Hook', (): void => {
             expect(result.current.isLoadingCategories).toEqual(false)
         })
 
-        expect(result.current.rootCategory).toBe(categories)
+        expect(result.current.rootCategory).toEqual(categories)
     });
 })
