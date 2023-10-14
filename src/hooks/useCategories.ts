@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import Category from '../types/Category'
+import Category, {DefaultCategory} from '../types/Category'
 
 interface UseCategories {
     isLoadingCategories: boolean;
@@ -7,18 +7,8 @@ interface UseCategories {
 }
 
 export default function useCategories(): UseCategories {
-    const defaultCategory: Category = {
-        id: 0,
-        parent_id: 0,
-        name: '',
-        is_active: true,
-        position: 0,
-        level: 1,
-        product_count: 0,
-        children_data: []
-    };
     const [isLoadingCategories, setIsLoadingCategories] = useState<boolean>(false)
-    const [rootCategory, setRootCategory] = useState<Category>(defaultCategory)
+    const [rootCategory, setRootCategory] = useState<Category>(DefaultCategory)
     const loadCategories = async (): Promise<void> => {
         setIsLoadingCategories(true)
 
