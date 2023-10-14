@@ -1,27 +1,22 @@
 import {renderHook, waitFor} from '@testing-library/react'
-import {SpyInstance} from 'vitest'
 import useCategories from './useCategories'
-import Category from '../types/Category'
+import Category, {DefaultCategory} from '../types/Category'
 import categories from '../test/data/categories.json'
 
 describe('useCategories Hook', (): void => {
-    let fetchMock: SpyInstance<[input: RequestInfo | URL, init?: RequestInit | undefined], Promise<Response>>
+    afterEach((): void => {
+        vi.restoreAllMocks()
+    })
 
-    beforeEach((): void => {
-        fetchMock = vi.spyOn(global, 'fetch').mockImplementation(() => {
+    it('fetches category data', async (): Promise<void> => {
+        vi.spyOn(global, 'fetch').mockImplementation(() => {
             return Promise.resolve({
                 ok: true,
                 status: 200,
                 json: async (): Promise<Category> => categories,
             } as Response)
         })
-    })
 
-    afterEach((): void => {
-        fetchMock.mockRestore()
-    })
-
-    it('fetches category data', async (): Promise<void> => {
         const {result} = renderHook(useCategories)
 
         expect(result.current.isLoadingCategories).toEqual(true)
@@ -31,5 +26,26 @@ describe('useCategories Hook', (): void => {
         })
 
         expect(result.current.rootCategory).toEqual(categories)
+    });
+
+    it('logs an error if categories cannot be fetched', async (): Promise<void> => {
+        vi.spyOn(global, 'fetch').mockImplementation(() => {
+            return Promise.resolve({
+                ok: false,
+                status: 400,
+                statusText: 'Bad Request',
+                json: async (): Promise<object> => ({}),
+            } as Response)
+        })
+        const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => undefined)
+
+        const {result} = renderHook(useCategories)
+
+        await waitFor((): void => {
+            expect(result.current.isLoadingCategories).toEqual(false)
+        })
+
+        expect(consoleMock).toBeCalledWith(new Error('Could not load categories. Response: 400 Bad Request'))
+        expect(result.current.rootCategory).toEqual(DefaultCategory)
     });
 })
