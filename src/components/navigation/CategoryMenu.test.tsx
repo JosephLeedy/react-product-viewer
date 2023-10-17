@@ -36,6 +36,20 @@ describe('Category Menu Component', (): void => {
         render(<CategoryMenu/>)
 
         const categoryMenu: HTMLElement = await screen.findByTestId('category-menu')
+        const filterInactiveCategories = (unfilteredCategories: Category[]) => unfilteredCategories.filter(
+            (category: Category): boolean => {
+                if (!category.is_active) {
+                    return false
+                }
+
+                if (category.children_data.length > 0) {
+                    category.children_data = filterInactiveCategories(category.children_data)
+                }
+
+                return true
+            }
+        )
+        const filteredCategories: Category[] = filterInactiveCategories(categories.children_data)
         const categoryNames: string[] = []
         const getCategoryNames = (category: Category): void => {
             categoryNames.push(category.name)
@@ -46,10 +60,10 @@ describe('Category Menu Component', (): void => {
         }
         let categoryName: string
 
-        categories.children_data.forEach(getCategoryNames)
+        filteredCategories.forEach(getCategoryNames)
 
         expect(categoryMenu).toBeInTheDocument()
-        expect(categoryMenu.children).toHaveLength(categories.children_data.length)
+        expect(categoryMenu.children).toHaveLength(filteredCategories.length)
 
         for (categoryName of categoryNames) {
             expect(screen.getByText(categoryName)).toBeInTheDocument()

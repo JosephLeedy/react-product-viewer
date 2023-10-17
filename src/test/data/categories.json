@@ -109,6 +109,37 @@
           ]
         }
       ]
+    },
+    {
+      "id": 9,
+      "parent_id": 2,
+      "name": "Training",
+      "is_active": true,
+      "position": 5,
+      "level": 2,
+      "product_count": 0,
+      "children_data": [
+        {
+          "id": 10,
+          "parent_id": 9,
+          "name": "Video Download",
+          "is_active": false,
+          "position": 1,
+          "level": 3,
+          "product_count": 0,
+          "children_data": []
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "parent_id": 2,
+      "name": "Gift Cards",
+      "is_active": false,
+      "position": 7,
+      "level": 2,
+      "product_count": 2,
+      "children_data": []
     }
   ]
 }

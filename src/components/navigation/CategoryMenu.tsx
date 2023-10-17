@@ -11,9 +11,16 @@ export default function CategoryMenu(): React.JSX.Element {
         isDropdownItem: boolean = false,
         uriSegments: string[] = []
     ): React.JSX.Element => {
-        const hasChildren: boolean = category.children_data.length > 0
+        const childCategories: Category[] = category.children_data.filter(
+            (childCategory: Category): boolean => childCategory.is_active
+        )
+        const hasChildren: boolean = childCategories.length > 0
         const locationHashSegments: string[] = window.location.hash.substring(1).split('/')
         let isActive: boolean
+
+        if (!category.is_active) {
+            return <React.Fragment key={category.id}/>
+        }
 
         uriSegments.push(convertTitleToUri(category.name))
 
@@ -36,7 +43,7 @@ export default function CategoryMenu(): React.JSX.Element {
                 {hasChildren &&
                     <ul className="dropdown-menu">
                         {
-                            category.children_data.map((childCategory: Category) => {
+                            childCategories.map((childCategory: Category) => {
                                 const categorySubMenu: React.JSX.Element = renderCategoryMenuItems(
                                     childCategory,
                                     true,
