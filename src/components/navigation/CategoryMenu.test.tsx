@@ -8,7 +8,7 @@ describe('Category Menu Component', (): void => {
     let fetchMock: SpyInstance<[input: RequestInfo | URL, init?: RequestInit | undefined], Promise<Response>>
 
     beforeEach((): void => {
-        fetchMock = vi.spyOn(global, 'fetch').mockImplementation(() => {
+        fetchMock = vi.spyOn(global, 'fetch').mockImplementation((): Promise<Response> => {
             return Promise.resolve({
                 ok: true,
                 status: 200,
@@ -29,7 +29,7 @@ describe('Category Menu Component', (): void => {
         expect(loadingIndicator).toBeInTheDocument()
         expect(screen.getByText('Loading categories...')).toBeInTheDocument()
 
-        await waitForElementToBeRemoved(() => screen.getByTestId('categories-loading-indicator'))
+        await waitForElementToBeRemoved((): HTMLElement => screen.getByTestId('categories-loading-indicator'))
     })
 
     it('renders fetched categories as menu items', async (): Promise<void> => {

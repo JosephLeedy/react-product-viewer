@@ -10,7 +10,7 @@ export default function CategoryMenu(): React.JSX.Element {
         category: Category,
         isDropdownItem: boolean = false,
         uriSegments: string[] = []
-    ) => {
+    ): React.JSX.Element => {
         const hasChildren: boolean = category.children_data.length > 0
         const locationHashSegments: string[] = window.location.hash.substring(1).split('/')
         let isActive: boolean

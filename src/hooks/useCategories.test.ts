@@ -9,7 +9,7 @@ describe('useCategories Hook', (): void => {
     })
 
     it('fetches category data', async (): Promise<void> => {
-        vi.spyOn(global, 'fetch').mockImplementation(() => {
+        vi.spyOn(global, 'fetch').mockImplementation((): Promise<Response> => {
             return Promise.resolve({
                 ok: true,
                 status: 200,
@@ -29,7 +29,7 @@ describe('useCategories Hook', (): void => {
     });
 
     it('logs an error if categories cannot be fetched', async (): Promise<void> => {
-        vi.spyOn(global, 'fetch').mockImplementation(() => {
+        vi.spyOn(global, 'fetch').mockImplementation((): Promise<Response> => {
             return Promise.resolve({
                 ok: false,
                 status: 400,
