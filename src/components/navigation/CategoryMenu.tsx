@@ -60,13 +60,14 @@ export default function CategoryMenu(): React.JSX.Element {
             </li>
         )
     }
-    const setActiveMenuItems = (currentMenuItem: EventTarget & HTMLAnchorElement): void => {
-        let parentElement: Element | null = currentMenuItem.parentElement
-
+    const resetActiveMenuItems = (currentMenuItem: EventTarget & HTMLAnchorElement): void => {
         Array.from(currentMenuItem.closest('.navbar-nav')!.getElementsByClassName('active'))
             .forEach((activeMenuItem: Element): void => {
                 activeMenuItem.classList.remove('active')
             })
+    }
+    const setActiveMenuItems = (currentMenuItem: EventTarget & HTMLAnchorElement): void => {
+        let parentElement: Element | null = currentMenuItem.parentElement
 
         currentMenuItem.classList.add('active')
 
@@ -85,6 +86,7 @@ export default function CategoryMenu(): React.JSX.Element {
     const handleMenuItemClick = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         const currentMenuItem: EventTarget & HTMLAnchorElement = event.currentTarget
 
+        resetActiveMenuItems(currentMenuItem)
         setActiveMenuItems(currentMenuItem)
     }
 
