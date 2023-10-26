@@ -7,24 +7,25 @@ interface UseCategories {
 }
 
 export default function useCategories(): UseCategories {
-    const [isLoadingCategories, setIsLoadingCategories] = useState<boolean>(false)
+    const [isLoadingCategories, setIsLoadingCategories] = useState<boolean>(true)
     const [rootCategory, setRootCategory] = useState<Category>(DefaultCategory)
     const loadCategories = async (): Promise<void> => {
-        setIsLoadingCategories(true)
+        await fetch('/data/categories.json')
+            .then(async (response: Response): Promise<void> => {
+                if (!response.ok) {
+                    throw new Error(`Could not load categories. Response: ${response.status} ${response.statusText}`);
+                }
 
-        const response: Response = await fetch('/data/categories.json')
-
-        setIsLoadingCategories(false)
-
-        if (!response.ok) {
-            throw new Error(`Could not load categories. Response: ${response.status} ${response.statusText}`);
-        }
-
-        setRootCategory(await response.json())
+                setRootCategory(await response.json())
+            }).catch((error: Error): void => {
+                console.log(error)
+            }).finally((): void => {
+                setIsLoadingCategories(false)
+            })
     }
 
     useEffect((): void => {
-        loadCategories().catch(console.log)
+        loadCategories()
     }, [])
 
     return {

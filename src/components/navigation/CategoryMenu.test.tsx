@@ -3,9 +3,10 @@ import {SpyInstance} from 'vitest'
 import CategoryMenu from './CategoryMenu'
 import Category from '../../types/Category'
 import categories from '../../test/data/categories.json'
+import {RequestInfo} from 'undici-types'
 
 describe('Category Menu Component', (): void => {
-    let fetchMock: SpyInstance<[input: RequestInfo | URL, init?: RequestInit | undefined], Promise<Response>>
+    let fetchMock: SpyInstance<[input: RequestInfo, init?: RequestInit | undefined], Promise<Response>>
 
     beforeEach((): void => {
         fetchMock = vi.spyOn(global, 'fetch').mockImplementation((): Promise<Response> => {
