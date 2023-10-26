@@ -3,7 +3,7 @@ import Navigation from './components/Navigation'
 import ProductGrid from './components/ProductGrid'
 import Footer from './components/Footer.tsx'
 
-function App() {
+export default function App() {
     return (
         <>
             <Navigation/>
@@ -12,5 +12,3 @@ function App() {
         </>
     )
 }
-
-export default App
