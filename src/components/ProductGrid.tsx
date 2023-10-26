@@ -1,3 +1,4 @@
+import React from 'react'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
@@ -9,7 +10,7 @@ import Row from 'react-bootstrap/Row'
 import {Cart4, Filter, Heart, HeartFill, TagFill} from 'react-bootstrap-icons'
 import './ProductGrid.scss'
 
-export default () => {
+export default function ProductGrid(): React.JSX.Element {
     return (
         <Container as="main" className="product-grid mt-2 mt-md-5" data-testid="page-body">
             <Row>
