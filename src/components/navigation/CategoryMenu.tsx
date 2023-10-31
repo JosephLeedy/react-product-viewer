@@ -18,7 +18,7 @@ export default function CategoryMenu(): React.JSX.Element {
         const locationHashSegments: string[] = window.location.hash.substring(1).split('/')
         let isActive: boolean
 
-        if (!category.is_active) {
+        if (!category.is_active || (!hasChildren && category.product_count === 0)) {
             return <React.Fragment key={category.id}/>
         }
 
