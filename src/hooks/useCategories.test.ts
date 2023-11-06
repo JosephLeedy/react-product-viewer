@@ -1,7 +1,7 @@
 import {renderHook, waitFor} from '@testing-library/react'
 import useCategories from './useCategories'
-import Category, {DefaultCategory} from '../types/Category'
-import categories from '../test/data/categories.json'
+import Category from '../types/Category'
+import rootCategory from '../test/data/categories.json'
 
 describe('useCategories Hook', (): void => {
     afterEach((): void => {
@@ -13,7 +13,7 @@ describe('useCategories Hook', (): void => {
             return Promise.resolve({
                 ok: true,
                 status: 200,
-                json: async (): Promise<Category> => categories,
+                json: async (): Promise<Category> => rootCategory,
             } as Response)
         })
 
@@ -25,7 +25,7 @@ describe('useCategories Hook', (): void => {
             expect(result.current.isLoadingCategories).toEqual(false)
         })
 
-        expect(result.current.rootCategory).toEqual(categories)
+        expect(result.current.categories).toEqual(rootCategory.children_data)
     });
 
     it('logs an error if categories cannot be fetched', async (): Promise<void> => {
@@ -46,6 +46,6 @@ describe('useCategories Hook', (): void => {
         })
 
         expect(consoleMock).toBeCalledWith(new Error('Could not load categories. Response: 400 Bad Request'))
-        expect(result.current.rootCategory).toEqual(DefaultCategory)
+        expect(result.current.categories).toEqual([])
     });
 })

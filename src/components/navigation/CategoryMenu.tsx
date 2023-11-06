@@ -5,7 +5,7 @@ import {convertTitleToUri} from '../../utilites/UriConverter'
 import Category from '../../types/Category'
 
 export default function CategoryMenu(): React.JSX.Element {
-    const {isLoadingCategories, rootCategory} = useCategories()
+    const {isLoadingCategories, categories} = useCategories()
     const renderCategoryMenuItems = (
         category: Category,
         isDropdownItem: boolean = false,
@@ -100,7 +100,7 @@ export default function CategoryMenu(): React.JSX.Element {
                         </Spinner>
                     :
                         <ul className="navbar-nav" data-testid="category-menu">
-                            {rootCategory.children_data.map((category: Category) => renderCategoryMenuItems(category))
+                            {categories.map((category: Category) => renderCategoryMenuItems(category))}
                         </ul>
                 }
             </div>
