@@ -1,7 +1,7 @@
 import React from 'react'
 import Spinner from 'react-bootstrap/Spinner'
 import useCategories from '../../hooks/useCategories'
-import {convertTitleToUri} from '../../utilites/UriConverter'
+import {convertTitleToUri} from '../../utilities/UriConverter'
 import Category from '../../types/Category'
 
 export default function CategoryMenu(): React.JSX.Element {
