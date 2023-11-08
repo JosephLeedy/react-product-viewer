@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react'
 import Category from '../types/Category'
 
-interface UseCategories {
-    isLoadingCategories: boolean;
+type UseCategories = {
+    isLoadingCategories: boolean
     categories: Category[]
 }
 

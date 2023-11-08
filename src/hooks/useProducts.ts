@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react'
 import Product, {ProductsResponse} from '../types/Product'
 
-interface UseProducts {
-    isLoadingProducts: boolean;
-    products: Product[],
+type UseProducts = {
+    isLoadingProducts: boolean
+    products: Product[]
     errorMessage: string
 }
 
