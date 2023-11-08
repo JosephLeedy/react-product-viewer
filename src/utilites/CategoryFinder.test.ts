@@ -1,8 +1,8 @@
-import {findCategoryByLocationHash, findCategoryByName} from './findCategory'
+import {findCategoryByLocationHash, findCategoryByName} from './CategoryFinder'
 import Category from '../types/Category'
 import categories from '../test/data/categories.json'
 
-describe('Find Category Utility', (): void => {
+describe('Category Finder Utility', (): void => {
     describe('Find Category by Location Hash', (): void => {
         it('finds a category by a given location hash', (): void => {
             const foundCategory: Category | null = findCategoryByLocationHash(categories.children_data, ['training'])
