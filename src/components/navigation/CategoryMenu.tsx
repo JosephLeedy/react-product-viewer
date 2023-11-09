@@ -4,13 +4,13 @@ import useCategories from '../../hooks/useCategories'
 import {convertTitleToUri} from '../../utilities/UriConverter'
 import Category from '../../types/Category'
 
-export default function CategoryMenu(): React.JSX.Element {
+export default function CategoryMenu(): React.JSX.Element | null {
     const {isLoadingCategories, categories} = useCategories()
     const renderCategoryMenuItems = (
         category: Category,
         isDropdownItem: boolean = false,
         uriSegments: string[] = []
-    ): React.JSX.Element => {
+    ): React.JSX.Element | null => {
         const childCategories: Category[] = category.children_data.filter(
             (childCategory: Category): boolean => childCategory.is_active
         )
@@ -19,7 +19,7 @@ export default function CategoryMenu(): React.JSX.Element {
         let isActive: boolean
 
         if (!category.is_active || (!hasChildren && category.product_count === 0)) {
-            return <React.Fragment key={category.id}/>
+            return null
         }
 
         uriSegments.push(convertTitleToUri(category.name))
@@ -44,7 +44,7 @@ export default function CategoryMenu(): React.JSX.Element {
                     <ul className="dropdown-menu">
                         {
                             childCategories.map((childCategory: Category) => {
-                                const categorySubMenu: React.JSX.Element = renderCategoryMenuItems(
+                                const categorySubMenu: React.JSX.Element | null = renderCategoryMenuItems(
                                     childCategory,
                                     true,
                                     uriSegments
