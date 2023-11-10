@@ -1,4 +1,5 @@
 import React, {createContext, Dispatch, ReactNode, SetStateAction, useContext, useMemo, useState} from 'react'
+import {removeReservedUrisFromLocationHash} from '../utilities/ReservedUriRemover'
 import {findCategoryByLocationHash} from '../utilities/CategoryFinder'
 import Category from '../types/Category'
 
@@ -26,6 +27,8 @@ export function CurrentCategoryContextProvider(
     if (categories.length === 0) {
         return null
     }
+
+    removeReservedUrisFromLocationHash(locationHashSegments)
 
     if (categories.length !== 0 && locationHashSegments.length > 0 && locationHashSegments[0] !== '') {
         currentCategoryFromLocationHash = findCategoryByLocationHash(categories, locationHashSegments)

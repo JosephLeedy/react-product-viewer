@@ -55,6 +55,24 @@ describe('Current Category Context', (): void => {
         expect(screen.queryByText('Test')).not.toBeInTheDocument()
     });
 
+    it('does not provide a category if the location hash is not a category URI', (): void => {
+        const SearchResultsHeadingComponent = (): React.JSX.Element => {
+            const {currentCategory} = useCurrentCategoryContext()
+
+            return <h3>{currentCategory === null ? 'Search Results' : currentCategory.name}</h3>
+        }
+
+        Object.defineProperty(window, 'location', {value: {hash: '#search'}})
+
+        render(
+            <CurrentCategoryContextProvider categories={rootCategory.children_data}>
+                <SearchResultsHeadingComponent/>
+            </CurrentCategoryContextProvider>
+        )
+
+        expect(screen.getByText('Search Results')).toBeInTheDocument()
+    });
+
     it('updates the current category', (): void => {
         let setCurrentCategory: (currentCategory: Category) => void
         const UpdateCurrentCategoryButton = (): React.JSX.Element => {
