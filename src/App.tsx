@@ -1,6 +1,7 @@
 import React from 'react'
 import './App.scss'
 import {CategoriesContextProvider} from './contexts/CategoriesContext'
+import {CurrentCategoryContextProvider} from './contexts/CurrentCategoryContext'
 import useCategories from './hooks/useCategories'
 import Navigation from './components/Navigation'
 import ProductGrid from './components/ProductGrid'
@@ -13,7 +14,9 @@ export default function App(): React.JSX.Element {
         <>
             <CategoriesContextProvider isLoadingCategories={isLoadingCategories} categories={categories}>
                 <Navigation/>
-                <ProductGrid/>
+                <CurrentCategoryContextProvider categories={categories}>
+                    <ProductGrid/>
+                </CurrentCategoryContextProvider>
             </CategoriesContextProvider>
             <Footer/>
         </>
