@@ -1,40 +1,29 @@
-import {render, screen, waitForElementToBeRemoved} from '@testing-library/react'
-import {SpyInstance} from 'vitest'
+import {render, screen} from '@testing-library/react'
 import CategoryMenu from './CategoryMenu'
+import {CategoriesContextProvider} from '../../contexts/CategoriesContext'
 import Category from '../../types/Category'
 import categories from '../../test/data/categories.json'
-import {RequestInfo} from 'undici-types'
 
 describe('Category Menu Component', (): void => {
-    let fetchMock: SpyInstance<[input: RequestInfo, init?: RequestInit | undefined], Promise<Response>>
-
-    beforeEach((): void => {
-        fetchMock = vi.spyOn(global, 'fetch').mockImplementation((): Promise<Response> => {
-            return Promise.resolve({
-                ok: true,
-                status: 200,
-                json: async (): Promise<Category> => categories,
-            } as Response)
-        })
-    })
-
-    afterEach((): void => {
-        fetchMock.mockRestore()
-    })
-
     it('renders a loading indicator until categories are fetched', async (): Promise<void> => {
-        render(<CategoryMenu/>)
+        render(
+            <CategoriesContextProvider isLoadingCategories={true} categories={[]}>
+                <CategoryMenu/>
+            </CategoriesContextProvider>
+        )
 
         const loadingIndicator: HTMLElement = screen.getByTestId('categories-loading-indicator')
 
         expect(loadingIndicator).toBeInTheDocument()
         expect(screen.getByText('Loading categories...')).toBeInTheDocument()
-
-        await waitForElementToBeRemoved((): HTMLElement => screen.getByTestId('categories-loading-indicator'))
     })
 
     it('renders fetched categories as menu items', async (): Promise<void> => {
-        render(<CategoryMenu/>)
+        render(
+            <CategoriesContextProvider isLoadingCategories={false} categories={categories.children_data}>
+                <CategoryMenu/>
+            </CategoriesContextProvider>
+        )
 
         const categoryMenu: HTMLElement = await screen.findByTestId('category-menu')
         const filterCategories = (unfilteredCategories: Category[]) => unfilteredCategories.filter(

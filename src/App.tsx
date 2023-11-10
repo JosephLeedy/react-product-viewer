@@ -1,14 +1,20 @@
 import React from 'react'
 import './App.scss'
+import {CategoriesContextProvider} from './contexts/CategoriesContext'
+import useCategories from './hooks/useCategories'
 import Navigation from './components/Navigation'
 import ProductGrid from './components/ProductGrid'
 import Footer from './components/Footer'
 
 export default function App(): React.JSX.Element {
+    const {isLoadingCategories, categories} = useCategories()
+
     return (
         <>
-            <Navigation/>
-            <ProductGrid/>
+            <CategoriesContextProvider isLoadingCategories={isLoadingCategories} categories={categories}>
+                <Navigation/>
+                <ProductGrid/>
+            </CategoriesContextProvider>
             <Footer/>
         </>
     )
