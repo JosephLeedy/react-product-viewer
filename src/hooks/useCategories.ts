@@ -13,6 +13,7 @@ export default function useCategories(): UseCategories {
         await fetch('/data/categories.json')
             .then(async (response: Response): Promise<void> => {
                 let rootCategory: Category
+
                 if (!response.ok) {
                     throw new Error(`Could not load categories. Response: ${response.status} ${response.statusText}`);
                 }
