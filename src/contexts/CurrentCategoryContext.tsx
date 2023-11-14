@@ -18,7 +18,7 @@ const CurrentCategoryContext: React.Context<CurrentCategoryContextValue | undefi
 export function CurrentCategoryContextProvider(
     {categories, children}: CurrentCategoryContextProperties
 ): React.JSX.Element | null {
-    const locationHashSegments: string[] = window.location.hash.substring(1).split('/')
+    const locationHashSegments: string[] = window.location.hash.match(/#?([^?]*)\??/)![1].split('/')
     let currentCategoryFromLocationHash: Category | null = null
     let currentCategory: Category | null
     let setCurrentCategory: Dispatch<SetStateAction<Category | null>>
