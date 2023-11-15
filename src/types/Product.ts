@@ -169,6 +169,7 @@ export interface ProductLink {
     linked_product_sku: string
     linked_product_type: ProductTypeId
     position: number
+    extension_attributes?: any[]
 }
 
 export interface ProductOption {
