@@ -246,7 +246,8 @@ export enum ProductTypeId {
 export enum LinkType {
     Crosssell = 'crosssell',
     Upsell = 'upsell',
-    Related = 'related'
+    Related = 'related',
+    Associated = 'associated'
 }
 
 export enum MediaGalleryEntryType {
