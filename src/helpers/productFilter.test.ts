@@ -9,8 +9,7 @@ import {
 import Product, {ProductStatus, ProductTypeId} from '../types/Product'
 import productData from '../test/data/products.json'
 
-// @ts-ignore
-const products: Product[] = productData.items
+const products: Product[] = productData.items as Product[]
 
 describe('Product Filtering Helpers', (): void => {
     describe('Filter Enabled Products', (): void => {
