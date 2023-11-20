@@ -1,11 +1,11 @@
 import {Mock} from 'vitest'
-import {getByTestId, render} from '@testing-library/react'
-import App from './App'
+import {render, screen} from '@testing-library/react'
 import useCategories from './hooks/useCategories'
+import App from './App'
 import Category from './types/Category'
 import rootCategory from './test/data/categories.json'
 
-describe("App renders properly", () => {
+describe("Application Component", (): void => {
     const useCategoriesMock: Mock = vi.hoisted((): Mock => vi.fn())
 
     vi.mock('./hooks/useCategories', (): { default: Mock } => ({
@@ -13,33 +13,36 @@ describe("App renders properly", () => {
     }))
 
     beforeEach((): void => {
-        const useCategoriesReturnValue: {isLoadingCategories: boolean, categories: Category[]} = {
+        const useCategoriesReturnValue: {
+            isLoadingCategories: boolean,
+            categories: Category[]
+        } = {
             isLoadingCategories: false,
             categories: rootCategory.children_data
         }
 
         vi.mocked(useCategories).mockReturnValue(useCategoriesReturnValue)
-    });
+    })
 
     afterEach((): void => {
         vi.resetAllMocks()
     })
 
-    test("it has a header", () => {
+    it('renders a header', (): void => {
         render(<App/>)
 
-        expect(getByTestId(document.documentElement, 'page-header')).toBeInTheDocument()
+        expect(screen.getByTestId('page-header')).toBeInTheDocument()
     })
 
-    test("it has a body", () => {
+    it('renders a body', (): void => {
         render(<App/>)
 
-        expect(getByTestId(document.documentElement, 'page-body')).toBeInTheDocument()
+        expect(screen.getByTestId('page-body')).toBeInTheDocument()
     })
 
-    test("it has a footer", () => {
+    it('renders a footer', (): void => {
         render(<App/>)
 
-        expect(getByTestId(document.documentElement, 'page-footer')).toBeInTheDocument()
+        expect(screen.getByTestId('page-footer')).toBeInTheDocument()
     })
 })
