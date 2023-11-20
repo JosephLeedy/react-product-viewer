@@ -18,7 +18,9 @@
   width: 22rem;
 
   .product-image {
-    width: initial;
+    width: 240px;
+    height: 300px;
+    object-fit: contain;
   }
 
   .product-description {
