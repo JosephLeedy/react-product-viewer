@@ -1,89 +1,81 @@
 import React from 'react'
-import Button from 'react-bootstrap/Button'
-import Card from 'react-bootstrap/Card'
+import {useCurrentCategoryContext} from '../contexts/CurrentCategoryContext'
+import useProducts from '../hooks/useProducts'
+import {filterEnabledProducts, filterProductsByCategoryId, filterUncomplexProducts} from '../helpers/productFilter'
+import ProductCard from './ProductGrid/ProductCard'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
-import Form from 'react-bootstrap/Form'
-import InputGroup from 'react-bootstrap/InputGroup'
-import Pagination from 'react-bootstrap/Pagination'
 import Row from 'react-bootstrap/Row'
-import {Cart4, Filter, Heart, HeartFill, TagFill} from 'react-bootstrap-icons'
+import Spinner from 'react-bootstrap/Spinner'
+import Product from '../types/Product'
 import './ProductGrid.scss'
 
 export default function ProductGrid(): React.JSX.Element {
+    const {currentCategory} = useCurrentCategoryContext()
+    const {isLoadingProducts, products, errorMessage} = useProducts()
+    const locationHash: string = window.location.hash.match(/#?([^?]*)\??/)![1]
+    let categoryProducts: Product[] = []
+
+    if (currentCategory !== null && !isLoadingProducts && errorMessage.length === 0 && products.length > 0) {
+        categoryProducts = filterProductsByCategoryId(
+            filterUncomplexProducts(
+                filterEnabledProducts(products)
+            ),
+            currentCategory.id
+        )
+    }
+
+    if (errorMessage.length > 0) {
+        console.error(errorMessage)
+    }
+
     return (
         <Container as="main" className="product-grid mt-2 mt-md-5" data-testid="page-body">
-            <Row>
-                <Col>
-                    <h2>Example Category</h2>
-                </Col>
-                <Col className="d-flex justify-content-end">
-                    <Form>
-                        <InputGroup>
-                            <InputGroup.Text>
-                                <Filter/>
-                            </InputGroup.Text>
-                            <Form.Control type="text" placeholder="Filter products" id="product-filter"/>
-                        </InputGroup>
-                    </Form>
-                </Col>
-            </Row>
-            <Row xs={1} md={2} lg={3} className="mt-2 g-2 g-md-5">
-                {Array.from({ length: 9 }).map((_, index) => (
-                    <Col key={index}>
-                        <Card as="article" className="product-card">
-                            <Card.Header as="header">
-                                <Card.Title as="h3" className="mb-0 lh-1 fs-4 text-center">{index % 3 === 0 && <TagFill className="me-2" title="On Sale"/>}Joust Duffle Bag</Card.Title>
-                            </Card.Header>
-                            <Card.Body className="product-details">
-                                <figure className="mb-0 text-center">
-                                    <Card.Img className="product-image" src="https://commerce246.test/media/catalog/product//m/b/mb01-blue-0.jpg" alt="Joust Duffle Bag" width="240" height="300"/>
-                                    <Card.ImgOverlay as="figcaption" className="product-description opacity-75 bg-dark text-light">
-                                        <Card.Text className="text-start">
-                                            The sporty Joust Duffle Bag can't be beat - not in the gym, not on the luggage carousel,
-                                            not anywhere. Big enough to haul a basketball or soccer ball and some sneakers with
-                                            plenty of room to spare, it's ideal for athletes with places to go.
-                                        </Card.Text>
-                                    </Card.ImgOverlay>
-                                </figure>
-                            </Card.Body>
-                            <Card.Footer as="footer">
-                                <Container>
-                                    <Row className="align-items-center">
-                                        <Col sm={6} className="ps-0 product-price">
-                                            <span className="regular-price">$34.99</span>
-                                            {index % 3 === 0 && <span className="sale-price">$29.99</span>}
-                                        </Col>
-                                        <Col sm={6} className="pe-0 d-flex justify-content-end">
-                                            <Button variant="link" className="favorite-product-button" title="Save to Favorites">
-                                                <span className="unfavorited-icon"><Heart/></span>
-                                                <span className="favorited-icon"><HeartFill/></span>
-                                            </Button>
-                                            <Button variant="primary" className="buy-product-button" href="https://commerce246.test/joust-duffle-bag.html" target="_blank"><Cart4 className="align-text-top"/> Buy</Button>
-                                        </Col>
-                                    </Row>
-                                </Container>
-                            </Card.Footer>
-                        </Card>
+            {currentCategory === null &&
+                <Row className="mt-5">
+                    <p className="no-category-message">
+                        {locationHash.length > 0 && 'Invalid category. '}
+                        Please select a category from the menu or use the Search form to find what you're looking for.
+                    </p>
+                </Row>
+            }
+            {currentCategory !== null &&
+                <Row className="mt-5">
+                    <Col>
+                        <h2 className="category-name-heading">{currentCategory.name}</h2>
                     </Col>
-                ))}
-            </Row>
-            <Row className="toolbar mt-2 mt-md-5 align-items-center">
-                <Col>
-                    <p>Showing <strong>1-9</strong> of <strong>27</strong> products.</p>
-                </Col>
-                <Col className="d-flex justify-content-end">
-                    <Pagination>
-                        <Pagination.First/>
-                        <Pagination.Prev/>
-                        <Pagination.Item active>{1}</Pagination.Item>
-                        <Pagination.Item>{2}</Pagination.Item>
-                        <Pagination.Item>{3}</Pagination.Item>
-                        <Pagination.Next/>
-                        <Pagination.Last/>
-                    </Pagination>
-                </Col>
-            </Row>
+                </Row>
+            }
+            {currentCategory !== null && isLoadingProducts &&
+                <Row className="mt-5">
+                    <Spinner animation="border" role="status" data-testid="products-loading-indicator">
+                        <span className="visually-hidden">Loading products...</span>
+                    </Spinner>
+                </Row>
+            }
+            {currentCategory !== null && !isLoadingProducts && errorMessage.length > 0 &&
+                <Row className="mt-5">
+                    <p>Could not load products from this category. Please select another category or perform a
+                        search.</p>
+                </Row>
+            }
+            {currentCategory !== null && !isLoadingProducts && errorMessage.length === 0
+                && categoryProducts.length === 0 &&
+                <Row className="mt-5">
+                    <p className="no-products-message">There are no products in this category. Please select another
+                        category or perform a search.</p>
+                </Row>
+            }
+            {currentCategory !== null && !isLoadingProducts && errorMessage.length === 0 &&
+                categoryProducts.length > 0 &&
+                <Row xs={1} md={2} lg={3} className="mt-2 g-2 g-md-5">
+                    {categoryProducts.map((product: Product, index: number): React.JSX.Element => (
+                        <Col key={index}>
+                            <ProductCard product={product} products={products}/>
+                        </Col>
+                    ))}
+                </Row>
+            }
         </Container>
     )
 }
