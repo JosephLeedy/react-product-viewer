@@ -23,6 +23,7 @@ describe('Product Grid Component', (): void => {
         errorMessage: ''
     }
     const useProductsMock: Mock = vi.hoisted((): Mock => vi.fn())
+    const setCurrentPage = (): void => {}
 
     vi.mock('..//hooks/useProducts', (): { default: Mock } => ({
         default: useProductsMock
@@ -48,7 +49,7 @@ describe('Product Grid Component', (): void => {
 
         render(
             <CurrentCategoryContextProvider categories={categories}>
-                <ProductGrid/>
+                <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
             </CurrentCategoryContextProvider>
         )
 
@@ -60,7 +61,7 @@ describe('Product Grid Component', (): void => {
 
         render(
             <CurrentCategoryContextProvider categories={categories}>
-                <ProductGrid/>
+                <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
             </CurrentCategoryContextProvider>
         )
 
@@ -72,7 +73,7 @@ describe('Product Grid Component', (): void => {
 
         render(
             <CurrentCategoryContextProvider categories={categories}>
-                <ProductGrid/>
+                <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
             </CurrentCategoryContextProvider>
         )
 
@@ -92,7 +93,7 @@ describe('Product Grid Component', (): void => {
 
         render(
             <CurrentCategoryContextProvider categories={categories}>
-                <ProductGrid/>
+                <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
             </CurrentCategoryContextProvider>
         )
 
@@ -112,7 +113,7 @@ describe('Product Grid Component', (): void => {
 
         render(
             <CurrentCategoryContextProvider categories={categories}>
-                <ProductGrid/>
+                <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
             </CurrentCategoryContextProvider>
         )
 
@@ -125,7 +126,7 @@ describe('Product Grid Component', (): void => {
 
         render(
             <CurrentCategoryContextProvider categories={categories}>
-                <ProductGrid/>
+                <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
             </CurrentCategoryContextProvider>
         )
 
@@ -137,7 +138,7 @@ describe('Product Grid Component', (): void => {
 
         render(
             <CurrentCategoryContextProvider categories={categories}>
-                <ProductGrid/>
+                <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
             </CurrentCategoryContextProvider>
         )
 
@@ -149,7 +150,7 @@ describe('Product Grid Component', (): void => {
 
         render(
             <CurrentCategoryContextProvider categories={categories}>
-                <ProductGrid/>
+                <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
             </CurrentCategoryContextProvider>
         )
 

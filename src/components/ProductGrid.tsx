@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React from 'react'
 import {useCurrentCategoryContext} from '../contexts/CurrentCategoryContext'
 import useProducts from '../hooks/useProducts'
 import {filterEnabledProducts, filterProductsByCategoryId, filterUncomplexProducts} from '../helpers/productFilter'
@@ -13,13 +13,15 @@ import Product from '../types/Product'
 import ProductPaginationResult from '../types/ProductPaginationResult'
 import './ProductGrid.scss'
 
-export default function ProductGrid(): React.JSX.Element {
+type ProductGridProperties = {
+    currentPage: number
+    setCurrentPage: (currentPage: number) => void
+}
+
+export default function ProductGrid({currentPage, setCurrentPage}: ProductGridProperties): React.JSX.Element {
     const {currentCategory} = useCurrentCategoryContext()
     const {isLoadingProducts, products, errorMessage} = useProducts()
     const locationHash: string = window.location.hash.match(/#?([^?]*)\??/)![1]
-    const queryParameters: string = window.location.hash.substring(window.location.hash.indexOf('?'))
-    const startingPage: number = parseInt(new URLSearchParams(queryParameters).get('page') ?? '1', 10)
-    const [currentPage, setCurrentPage] = useState<number>(startingPage)
     let categoryProducts: Product[] = []
     let productPaginationResult: ProductPaginationResult = {} as ProductPaginationResult
 
