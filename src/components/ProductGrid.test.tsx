@@ -143,4 +143,16 @@ describe('Product Grid Component', (): void => {
 
         expect(screen.getByText('Luma Virtual Gift Card')).toBeInTheDocument()
     })
+
+    it('renders a pagination toolbar', (): void => {
+        Object.defineProperty(window, 'location', {value: {hash: '#gift-cards'}})
+
+        render(
+            <CurrentCategoryContextProvider categories={categories}>
+                <ProductGrid/>
+            </CurrentCategoryContextProvider>
+        )
+
+        expect(screen.getByTestId('product-pagination-toolbar')).toBeInTheDocument()
+    })
 })

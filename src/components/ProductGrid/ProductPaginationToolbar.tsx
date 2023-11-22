@@ -25,7 +25,10 @@ export default function ProductPaginationToolbar(
     const currentLocationHash: string = window.location.hash.match(/([^?]*)\??/)![1]
 
     return (
-        <Row className="product-pagination-toolbar mt-2 mt-md-5 align-items-center">
+        <Row
+            className="product-pagination-toolbar mt-2 mt-md-5 align-items-center"
+            data-testid="product-pagination-toolbar"
+        >
             <Col>
                 <p className="product-count" data-testid="pagination-product-count">
                     Showing{' '}

@@ -1,20 +1,27 @@
-import React from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import {useCurrentCategoryContext} from '../contexts/CurrentCategoryContext'
 import useProducts from '../hooks/useProducts'
 import {filterEnabledProducts, filterProductsByCategoryId, filterUncomplexProducts} from '../helpers/productFilter'
+import {paginateProducts} from '../helpers/productData'
 import ProductCard from './ProductGrid/ProductCard'
+import ProductPaginationToolbar from './ProductGrid/ProductPaginationToolbar'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
 import Product from '../types/Product'
+import ProductPaginationResult from '../types/ProductPaginationResult'
 import './ProductGrid.scss'
 
 export default function ProductGrid(): React.JSX.Element {
     const {currentCategory} = useCurrentCategoryContext()
     const {isLoadingProducts, products, errorMessage} = useProducts()
     const locationHash: string = window.location.hash.match(/#?([^?]*)\??/)![1]
+    const queryParameters: string = window.location.hash.substring(window.location.hash.indexOf('?'))
+    const startingPage: number = parseInt(new URLSearchParams(queryParameters).get('page') ?? '1', 10)
+    const [currentPage, setCurrentPage] = useState<number>(startingPage)
     let categoryProducts: Product[] = []
+    let productPaginationResult: ProductPaginationResult = {} as ProductPaginationResult
 
     if (currentCategory !== null && !isLoadingProducts && errorMessage.length === 0 && products.length > 0) {
         categoryProducts = filterProductsByCategoryId(
@@ -23,6 +30,11 @@ export default function ProductGrid(): React.JSX.Element {
             ),
             currentCategory.id
         )
+    }
+
+    if (categoryProducts.length > 0) {
+        productPaginationResult = paginateProducts(categoryProducts, currentPage)
+        categoryProducts = productPaginationResult.paginatedProducts
     }
 
     if (errorMessage.length > 0) {
@@ -68,13 +80,20 @@ export default function ProductGrid(): React.JSX.Element {
             }
             {currentCategory !== null && !isLoadingProducts && errorMessage.length === 0 &&
                 categoryProducts.length > 0 &&
-                <Row xs={1} md={2} lg={3} className="mt-2 g-2 g-md-5">
-                    {categoryProducts.map((product: Product, index: number): React.JSX.Element => (
-                        <Col key={index}>
-                            <ProductCard product={product} products={products}/>
-                        </Col>
-                    ))}
-                </Row>
+                <>
+                    <Row xs={1} md={2} lg={3} className="mt-2 g-2 g-md-5">
+                        {categoryProducts.map((product: Product, index: number): React.JSX.Element => (
+                            <Col key={index}>
+                                <ProductCard product={product} products={products}/>
+                            </Col>
+                        ))}
+                    </Row>
+                    <ProductPaginationToolbar
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        {...productPaginationResult}
+                    />
+                </>
             }
         </Container>
     )
