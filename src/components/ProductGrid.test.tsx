@@ -30,7 +30,6 @@ describe('Product Grid Component', (): void => {
     }))
 
     beforeEach((): void => {
-        debugger
         vi.mocked(useProducts).mockReturnValue(useProductsReturnValue)
 
         Object.defineProperty(window, 'location', {value: {hash: '#women'}})
