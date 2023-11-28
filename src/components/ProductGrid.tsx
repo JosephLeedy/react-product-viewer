@@ -84,8 +84,8 @@ export default function ProductGrid({currentPage, setCurrentPage}: ProductGridPr
                 categoryProducts.length > 0 &&
                 <>
                     <Row xs={1} md={2} lg={3} className="mt-2 g-2 g-md-5">
-                        {categoryProducts.map((product: Product, index: number): React.JSX.Element => (
-                            <Col key={index}>
+                        {categoryProducts.map((product: Product): React.JSX.Element => (
+                            <Col key={product.id}>
                                 <ProductCard product={product} products={products}/>
                             </Col>
                         ))}
