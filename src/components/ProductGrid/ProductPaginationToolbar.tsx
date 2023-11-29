@@ -22,7 +22,18 @@ export default function ProductPaginationToolbar(
         endingProductIndex
     }: ProductPaginationToolbarProperties
 ): React.JSX.Element {
-    const currentLocationHash: string = window.location.hash.match(/([^?]*)\??/)![1]
+    const getLocationHashWithPageNumber = (pageNumber: number): string => {
+        const currentLocationHash: string = window.location.hash.match(/([^?]*)\??/)![1]
+        const indexOfQueryString: number = window.location.hash.indexOf('?')
+        const queryParameters: string = indexOfQueryString !== -1
+            ? window.location.hash.substring(indexOfQueryString)
+            : ''
+        const urlSearchParameters: URLSearchParams = new URLSearchParams(queryParameters)
+
+        urlSearchParameters.set('page', pageNumber.toString(10))
+
+        return currentLocationHash + '?' + urlSearchParameters.toString()
+    }
 
     return (
         <Row
@@ -42,7 +53,7 @@ export default function ProductPaginationToolbar(
                 <Col as="nav" className="d-flex justify-content-end">
                     <Pagination>
                         <Pagination.First
-                            href={currentLocationHash + '?page=1'}
+                            href={getLocationHashWithPageNumber(1)}
                             onClick={(): void => {
                                 setCurrentPage(1)
                                 window.scrollTo({
@@ -54,7 +65,7 @@ export default function ProductPaginationToolbar(
                             disabled={currentPage === 1}
                         />
                         <Pagination.Prev
-                            href={currentLocationHash + '?page=' + Math.max(currentPage - 1, 1)}
+                            href={getLocationHashWithPageNumber(Math.max(currentPage - 1, 1))}
                             onClick={(): void => {
                                 setCurrentPage(Math.max(currentPage - 1, 1))
                                 window.scrollTo({
@@ -68,7 +79,7 @@ export default function ProductPaginationToolbar(
                         {Array.from<number>({length: pageCount}).map((_: number, index: number) => (
                             <Pagination.Item
                                 key={index}
-                                href={currentLocationHash + '?page=' + (index + 1)}
+                                href={getLocationHashWithPageNumber(index + 1)}
                                 onClick={(): void => {
                                     setCurrentPage(index + 1)
                                     window.scrollTo({
@@ -83,7 +94,7 @@ export default function ProductPaginationToolbar(
                             </Pagination.Item>
                         ))}
                         <Pagination.Next
-                            href={currentLocationHash + '?page=' + Math.min(currentPage + 1, pageCount)}
+                            href={getLocationHashWithPageNumber(Math.min(currentPage + 1, pageCount))}
                             onClick={(): void => {
                                 setCurrentPage(Math.min(currentPage + 1, pageCount))
                                 window.scrollTo({
@@ -95,7 +106,7 @@ export default function ProductPaginationToolbar(
                             disabled={currentPage === pageCount}
                         />
                         <Pagination.Last
-                            href={currentLocationHash + '?page=' + pageCount}
+                            href={getLocationHashWithPageNumber(pageCount)}
                             onClick={(): void => {
                                 setCurrentPage(pageCount)
                                 window.scrollTo({
