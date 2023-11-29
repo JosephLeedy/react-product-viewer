@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {CategoriesContextProvider} from './contexts/CategoriesContext'
 import {CurrentCategoryContextProvider} from './contexts/CurrentCategoryContext'
+import {CurrentProductFilterContextProvider} from './contexts/CurrentProductFilterContext'
 import useCategories from './hooks/useCategories'
 import Navigation from './components/Navigation'
 import LocationHashChangeListener from './components/LocationHashChangeListener'
@@ -24,7 +25,12 @@ export default function App(): React.JSX.Element {
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
                     />
-                    <ProductGrid currentPage={currentPage} setCurrentPage={setCurrentPage}/>
+                    <CurrentProductFilterContextProvider>
+                        <ProductGrid
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                        />
+                    </CurrentProductFilterContextProvider>
                 </CurrentCategoryContextProvider>
             </CategoriesContextProvider>
             <Footer/>

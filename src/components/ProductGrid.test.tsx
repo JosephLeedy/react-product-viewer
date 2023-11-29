@@ -1,6 +1,7 @@
 import {Mock} from 'vitest'
-import {render, screen} from '@testing-library/react'
+import {render, screen, waitFor} from '@testing-library/react'
 import {CurrentCategoryContextProvider} from '../contexts/CurrentCategoryContext'
+import {CurrentProductFilterContextProvider} from '../contexts/CurrentProductFilterContext'
 import useProducts from '../hooks/useProducts'
 import ProductGrid from './ProductGrid'
 import Category from '../types/Category'
@@ -48,7 +49,9 @@ describe('Product Grid Component', (): void => {
 
         render(
             <CurrentCategoryContextProvider categories={categories}>
-                <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                <CurrentProductFilterContextProvider>
+                    <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                </CurrentProductFilterContextProvider>
             </CurrentCategoryContextProvider>
         )
 
@@ -60,26 +63,50 @@ describe('Product Grid Component', (): void => {
 
         render(
             <CurrentCategoryContextProvider categories={categories}>
-                <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                <CurrentProductFilterContextProvider>
+                    <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                </CurrentProductFilterContextProvider>
             </CurrentCategoryContextProvider>
         )
 
         expect(screen.getByText(/^Invalid category/)).toBeInTheDocument()
     })
 
-    it('renders a heading with the name of the selected category', (): void => {
+    it('renders a heading with the name of the selected category', async (): Promise<void> => {
         let categoryHeading: HTMLHeadingElement
 
         render(
             <CurrentCategoryContextProvider categories={categories}>
-                <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                <CurrentProductFilterContextProvider>
+                    <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                </CurrentProductFilterContextProvider>
             </CurrentCategoryContextProvider>
         )
 
         categoryHeading = screen.getByRole('heading')
 
-        expect(categoryHeading).toBeInTheDocument()
-        expect(categoryHeading.textContent).toEqual('Women')
+        await waitFor((): void => {
+            expect(categoryHeading).toBeInTheDocument()
+            expect(categoryHeading.textContent).toEqual('Women')
+        })
+    })
+
+    it('renders a product filter form', async (): Promise<void> => {
+        let productFilterForm: HTMLFormElement
+
+        render(
+            <CurrentCategoryContextProvider categories={categories}>
+                <CurrentProductFilterContextProvider>
+                    <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                </CurrentProductFilterContextProvider>
+            </CurrentCategoryContextProvider>
+        )
+
+        productFilterForm = screen.getByRole('form')
+
+        await waitFor((): void => {
+            expect(productFilterForm).toBeInTheDocument()
+        })
     })
 
     it('renders a loading indicator while products are loading for the selected category', (): void => {
@@ -92,7 +119,9 @@ describe('Product Grid Component', (): void => {
 
         render(
             <CurrentCategoryContextProvider categories={categories}>
-                <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                <CurrentProductFilterContextProvider>
+                    <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                </CurrentProductFilterContextProvider>
             </CurrentCategoryContextProvider>
         )
 
@@ -112,7 +141,9 @@ describe('Product Grid Component', (): void => {
 
         render(
             <CurrentCategoryContextProvider categories={categories}>
-                <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                <CurrentProductFilterContextProvider>
+                    <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                </CurrentProductFilterContextProvider>
             </CurrentCategoryContextProvider>
         )
 
@@ -120,39 +151,51 @@ describe('Product Grid Component', (): void => {
         expect(consoleMock).toBeCalledWith('Could not load products. Error: "400 Bad Request"')
     })
 
-    it('renders an error message if the selected category has no products in it', (): void => {
+    it('renders an error message if the selected category has no products in it', async (): Promise<void> => {
         Object.defineProperty(window, 'location', {value: {hash: '#what-s-new'}})
 
         render(
             <CurrentCategoryContextProvider categories={categories}>
-                <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                <CurrentProductFilterContextProvider>
+                    <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                </CurrentProductFilterContextProvider>
             </CurrentCategoryContextProvider>
         )
 
-        expect(screen.getByText(/^There are no products in this category/)).toBeInTheDocument()
+        await waitFor((): void => {
+            expect(screen.getByText(/^There are no products in this category/)).toBeInTheDocument()
+        })
     })
 
-    it('renders a grid containing all of the products in the chosen category', (): void => {
+    it('renders a grid containing all of the products in the chosen category', async (): Promise<void> => {
         Object.defineProperty(window, 'location', {value: {hash: '#gift-cards'}})
 
         render(
             <CurrentCategoryContextProvider categories={categories}>
-                <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                <CurrentProductFilterContextProvider>
+                    <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                </CurrentProductFilterContextProvider>
             </CurrentCategoryContextProvider>
         )
 
-        expect(screen.getByText('Luma Virtual Gift Card')).toBeInTheDocument()
+        await waitFor((): void => {
+            expect(screen.getByText('Luma Virtual Gift Card')).toBeInTheDocument()
+        })
     })
 
-    it('renders a pagination toolbar', (): void => {
+    it('renders a pagination toolbar', async (): Promise<void> => {
         Object.defineProperty(window, 'location', {value: {hash: '#gift-cards'}})
 
         render(
             <CurrentCategoryContextProvider categories={categories}>
-                <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                <CurrentProductFilterContextProvider>
+                    <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                </CurrentProductFilterContextProvider>
             </CurrentCategoryContextProvider>
         )
 
-        expect(screen.getByTestId('product-pagination-toolbar')).toBeInTheDocument()
+        await waitFor((): void => {
+            expect(screen.getByTestId('product-pagination-toolbar')).toBeInTheDocument()
+        })
     })
 })

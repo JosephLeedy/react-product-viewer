@@ -3,6 +3,7 @@ import {useCurrentCategoryContext} from '../contexts/CurrentCategoryContext'
 import useProducts from '../hooks/useProducts'
 import {filterEnabledProducts, filterProductsByCategoryId, filterUncomplexProducts} from '../helpers/productFilter'
 import {paginateProducts} from '../helpers/productData'
+import ProductFilterForm from './ProductGrid/ProductFilterForm'
 import ProductCard from './ProductGrid/ProductCard'
 import ProductPaginationToolbar from './ProductGrid/ProductPaginationToolbar'
 import Col from 'react-bootstrap/Col'
@@ -58,6 +59,11 @@ export default function ProductGrid({currentPage, setCurrentPage}: ProductGridPr
                     <Col>
                         <h2 className="category-name-heading">{currentCategory.name}</h2>
                     </Col>
+                    {!isLoadingProducts &&
+                        <Col className="d-flex justify-content-end">
+                            <ProductFilterForm/>
+                        </Col>
+                    }
                 </Row>
             }
             {currentCategory !== null && isLoadingProducts &&
