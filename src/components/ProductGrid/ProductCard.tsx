@@ -69,7 +69,7 @@ export default function ProductCard({product, products}: ProductCardProperties):
                                 href={getProductUrl(product, products)}
                                 target="_blank"
                             >
-                                <Cart4 className="align-text-top"/> Buy
+                                <Cart4 className="align-text-top" aria-hidden/> Buy
                             </Button>
                         </Col>
                     </Row>
