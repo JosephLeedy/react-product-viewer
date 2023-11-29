@@ -1,6 +1,10 @@
 import React from 'react'
 import {fireEvent, render, screen, waitFor} from '@testing-library/react'
 import {CurrentCategoryContextProvider, useCurrentCategoryContext} from '../contexts/CurrentCategoryContext'
+import {
+    CurrentProductFilterContextProvider,
+    useCurrentProductFilterContext
+} from '../contexts/CurrentProductFilterContext'
 import LocationHashChangeListener from './LocationHashChangeListener'
 import rootCategory from '../test/data/categories.json'
 
@@ -26,11 +30,13 @@ describe('Location Hash Change Listener Component', (): void => {
             <CurrentCategoryContextProvider categories={rootCategory.children_data}>
                 <CategoryNameComponent/>
                 <UpdateCurrentCategoryButton/>
-                <LocationHashChangeListener
-                    categories={rootCategory.children_data}
-                    currentPage={1}
-                    setCurrentPage={(): void => {}}
-                />
+                <CurrentProductFilterContextProvider>
+                    <LocationHashChangeListener
+                        categories={rootCategory.children_data}
+                        currentPage={1}
+                        setCurrentPage={(): void => {}}
+                    />
+                </CurrentProductFilterContextProvider>
             </CurrentCategoryContextProvider>
         )
 
@@ -48,11 +54,13 @@ describe('Location Hash Change Listener Component', (): void => {
 
         render(
             <CurrentCategoryContextProvider categories={rootCategory.children_data}>
-                <LocationHashChangeListener
-                    categories={rootCategory.children_data}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                />
+                <CurrentProductFilterContextProvider>
+                    <LocationHashChangeListener
+                        categories={rootCategory.children_data}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                    />
+                </CurrentProductFilterContextProvider>
             </CurrentCategoryContextProvider>
         )
 
@@ -62,6 +70,43 @@ describe('Location Hash Change Listener Component', (): void => {
             window.dispatchEvent(new Event('hashchange'))
 
             expect(currentPage).toEqual(2)
+        })
+    })
+
+    it('resets the product filter when the user navigates in their browser', async (): Promise<void> => {
+        const CurrentProductFilterContextConsumer = (): React.JSX.Element => {
+            const {currentProductFilter} = useCurrentProductFilterContext()
+
+            return (
+                <dl>
+                    <dt>{currentProductFilter.type}</dt>
+                    <dd>{currentProductFilter.value}</dd>
+                </dl>
+            )
+        }
+
+        Object.defineProperty(window, 'location', {value: {hash: '#gear?filter=name&keyword=Joust'}})
+
+        render(
+            <CurrentCategoryContextProvider categories={rootCategory.children_data}>
+                <CurrentProductFilterContextProvider>
+                    <CurrentProductFilterContextConsumer/>
+                    <LocationHashChangeListener
+                        categories={rootCategory.children_data}
+                        currentPage={1}
+                        setCurrentPage={(): void => {}}
+                    />
+                </CurrentProductFilterContextProvider>
+            </CurrentCategoryContextProvider>
+        )
+
+        Object.defineProperty(window, 'location', {value: {hash: '#gear?filter=sku&keyword=24-MB0'}})
+
+        await waitFor((): void => {
+            window.dispatchEvent(new Event('hashchange'))
+
+            expect(screen.getByText('sku')).toBeInTheDocument()
+            expect(screen.getByText('24-MB0')).toBeInTheDocument()
         })
     })
 })

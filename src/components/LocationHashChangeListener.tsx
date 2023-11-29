@@ -1,8 +1,10 @@
 import React, {useEffect, useRef} from 'react'
 import {useCurrentCategoryContext} from '../contexts/CurrentCategoryContext'
+import {useCurrentProductFilterContext} from '../contexts/CurrentProductFilterContext'
 import {findCategoryByLocationHash} from '../utilities/CategoryFinder'
 import {removeReservedUrisFromLocationHash} from '../utilities/ReservedUriRemover'
 import Category from '../types/Category'
+import ProductFilter, {ProductFilterType} from '../types/ProductFilter'
 
 type LocationHashChangeListenerProperties = {
     categories: Category[]
@@ -18,7 +20,9 @@ export default function LocationHashChangeListener(
     }: LocationHashChangeListenerProperties
 ): null {
     const {setCurrentCategory} = useCurrentCategoryContext()
+    const {currentProductFilter, setCurrentProductFilter} = useCurrentProductFilterContext()
     const pageRef: React.MutableRefObject<number> = useRef<number>(1)
+    const productFilterRef: React.MutableRefObject<ProductFilter> = useRef<ProductFilter>({} as ProductFilter)
     const updateCurrentCategory = (): void => {
         const locationHashSegments: string[] = window.location.hash.match(/#?([^?]*)\??/)![1].split('/')
         let currentCategory: Category | null
@@ -47,13 +51,41 @@ export default function LocationHashChangeListener(
 
         setCurrentPage(page)
     }
+    const resetCurrentProductFilter = (): void => {
+        /*
+          The logic below fixes two issues:
+            1. Categories have the wrong product filter set when they're selected from the menu if filtering is active
+            2. The current product filter does not change when the user navigates backwards or forwards in their browser
+        */
+        const queryParameters: string = window.location.hash.substring(window.location.hash.indexOf('?'))
+        const urlSearchParameters: URLSearchParams = new URLSearchParams(queryParameters)
+        const currentProductFilter: ProductFilter = {
+            type: (urlSearchParameters.get('filter') as ProductFilterType) ?? ProductFilterType.Name,
+            value: decodeURIComponent(urlSearchParameters.get('keyword') ?? ''),
+            isUpdated: false,
+        }
+
+        if (
+            productFilterRef.current.isUpdated
+            || (
+                currentProductFilter.type === productFilterRef.current.type
+                && currentProductFilter.value === productFilterRef.current.value
+            )
+        ) {
+            return
+        }
+
+        setCurrentProductFilter(currentProductFilter)
+    }
 
     pageRef.current = currentPage
+    productFilterRef.current = currentProductFilter
 
     useEffect((): void => {
         window.addEventListener('hashchange', (): void => {
             updateCurrentCategory()
             resetCurrentPage()
+            resetCurrentProductFilter()
         })
     }, [])
 

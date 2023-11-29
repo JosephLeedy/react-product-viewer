@@ -20,12 +20,12 @@ export default function App(): React.JSX.Element {
             <CategoriesContextProvider isLoadingCategories={isLoadingCategories} categories={categories}>
                 <Navigation/>
                 <CurrentCategoryContextProvider categories={categories}>
-                    <LocationHashChangeListener
-                        categories={categories}
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
-                    />
                     <CurrentProductFilterContextProvider>
+                        <LocationHashChangeListener
+                            categories={categories}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                        />
                         <ProductGrid
                             currentPage={currentPage}
                             setCurrentPage={setCurrentPage}
