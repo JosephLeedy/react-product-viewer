@@ -61,7 +61,7 @@ export default function LocationHashChangeListener(
         const urlSearchParameters: URLSearchParams = new URLSearchParams(queryParameters)
         const currentProductFilter: ProductFilter = {
             type: (urlSearchParameters.get('filter') as ProductFilterType) ?? ProductFilterType.Name,
-            value: decodeURIComponent(urlSearchParameters.get('keyword') ?? ''),
+            value: urlSearchParameters.get('keyword') ?? '',
             isUpdated: false,
         }
 
