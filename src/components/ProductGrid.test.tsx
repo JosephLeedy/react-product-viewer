@@ -167,6 +167,22 @@ describe('Product Grid Component', (): void => {
         })
     })
 
+    it('renders an error message if the current filter does not match any products', async (): Promise<void> => {
+        Object.defineProperty(window, 'location', {value: {hash: '#what-s-new?filter=sku&keyword=test'}})
+
+        render(
+            <CurrentCategoryContextProvider categories={categories}>
+                <CurrentProductFilterContextProvider>
+                    <ProductGrid currentPage={1} setCurrentPage={setCurrentPage}/>
+                </CurrentProductFilterContextProvider>
+            </CurrentCategoryContextProvider>
+        )
+
+        await waitFor((): void => {
+            expect(screen.getByText(/^There are no products matching the SKU "test"/)).toBeInTheDocument()
+        })
+    })
+
     it('renders a grid containing all of the products in the chosen category', async (): Promise<void> => {
         Object.defineProperty(window, 'location', {value: {hash: '#gift-cards'}})
 

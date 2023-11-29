@@ -1,7 +1,14 @@
 import React from 'react'
 import {useCurrentCategoryContext} from '../contexts/CurrentCategoryContext'
+import {useCurrentProductFilterContext} from '../contexts/CurrentProductFilterContext'
 import useProducts from '../hooks/useProducts'
-import {filterEnabledProducts, filterProductsByCategoryId, filterUncomplexProducts} from '../helpers/productFilter'
+import {
+    filterEnabledProducts,
+    filterProductsByCategoryId,
+    filterProductsByName,
+    filterProductsBySku,
+    filterUncomplexProducts
+} from '../helpers/productFilter'
 import {paginateProducts} from '../helpers/productData'
 import ProductFilterForm from './ProductGrid/ProductFilterForm'
 import ProductCard from './ProductGrid/ProductCard'
@@ -11,6 +18,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
 import Product from '../types/Product'
+import {ProductFilterType} from '../types/ProductFilter'
 import ProductPaginationResult from '../types/ProductPaginationResult'
 import './ProductGrid.scss'
 
@@ -21,8 +29,12 @@ type ProductGridProperties = {
 
 export default function ProductGrid({currentPage, setCurrentPage}: ProductGridProperties): React.JSX.Element {
     const {currentCategory} = useCurrentCategoryContext()
+    const {currentProductFilter} = useCurrentProductFilterContext()
     const {isLoadingProducts, products, errorMessage} = useProducts()
     const locationHash: string = window.location.hash.match(/#?([^?]*)\??/)![1]
+    const filterTypeLabel: string = currentProductFilter.type === ProductFilterType.SKU
+        ? 'SKU'
+        : currentProductFilter.type
     let categoryProducts: Product[] = []
     let productPaginationResult: ProductPaginationResult = {} as ProductPaginationResult
 
@@ -33,6 +45,16 @@ export default function ProductGrid({currentPage, setCurrentPage}: ProductGridPr
             ),
             currentCategory.id
         )
+    }
+
+    if (categoryProducts.length > 0 && currentProductFilter.value.length > 0) {
+        if (currentProductFilter.type === ProductFilterType.Name) {
+            categoryProducts = filterProductsByName(categoryProducts, currentProductFilter.value)
+        }
+
+        if (currentProductFilter.type === ProductFilterType.SKU) {
+            categoryProducts = filterProductsBySku(categoryProducts, currentProductFilter.value)
+        }
     }
 
     if (categoryProducts.length > 0) {
@@ -80,10 +102,18 @@ export default function ProductGrid({currentPage, setCurrentPage}: ProductGridPr
                 </Row>
             }
             {currentCategory !== null && !isLoadingProducts && errorMessage.length === 0
-                && categoryProducts.length === 0 &&
+                && categoryProducts.length === 0 && currentProductFilter.value.length === 0 &&
                 <Row className="mt-5">
                     <p className="no-products-message">There are no products in this category. Please select another
                         category or perform a search.</p>
+                </Row>
+            }
+            {currentCategory !== null && !isLoadingProducts && errorMessage.length === 0
+                && categoryProducts.length === 0 && currentProductFilter.value.length > 0 &&
+                <Row className="mt-5">
+                    <p className="no-products-found-message">There are no products matching the{' '}
+                        {filterTypeLabel} "{currentProductFilter.value}" in this category. Please enter
+                        another keyword to filter by or select a different filter type.</p>
                 </Row>
             }
             {currentCategory !== null && !isLoadingProducts && errorMessage.length === 0 &&
