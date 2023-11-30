@@ -3,19 +3,18 @@ import {CategoriesContextProvider} from '../contexts/CategoriesContext'
 import Navigation from './Navigation'
 import rootCategory from '../test/data/categories.json'
 
-describe('Navigation bar renders properly', () => {
-    test('it has the app name as a main heading', () => {
-        const { getByText } =  render(
+describe('Navigation Component', (): void => {
+    it('renders the app name as a main heading', (): void => {
+        render(
             <CategoriesContextProvider isLoadingCategories={false} categories={rootCategory.children_data}>
                 <Navigation/>
             </CategoriesContextProvider>
         )
 
-        expect(getByText('Product Viewer')).toBeInTheDocument()
-        expect(screen.getByRole('heading', {level: 1})).toBeInTheDocument()
+        expect(screen.getByRole('heading', {level: 1, name: 'Product Viewer'})).toBeInTheDocument()
     })
 
-    test('it has a navigation menu', () => {
+    it('renders a navigation menu', (): void => {
         render(
             <CategoriesContextProvider isLoadingCategories={false} categories={rootCategory.children_data}>
                 <Navigation/>
@@ -25,7 +24,7 @@ describe('Navigation bar renders properly', () => {
         expect(screen.getByRole('navigation')).toBeInTheDocument()
     })
 
-    test('it has a search form', () => {
+    it('renders a search form', (): void => {
         render(
             <CategoriesContextProvider isLoadingCategories={false} categories={rootCategory.children_data}>
                 <Navigation/>
