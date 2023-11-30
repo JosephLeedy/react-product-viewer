@@ -1,17 +1,19 @@
 import {render, screen} from '@testing-library/react'
 import Footer from './Footer'
 
-describe('Footer renders properly', () => {
-    test('it has the copyright date', () => {
-       render(<Footer/>)
+describe('Footer Component', (): void => {
+    it('renders the copyright date', (): void => {
+        render(<Footer/>)
 
         expect(screen.getByText(/^Copyright/)).toBeInTheDocument()
     })
 
-    test('it has a project link', () => {
+    it('renders a project link', (): void => {
+        let gitHubLink: HTMLAnchorElement
+
         render(<Footer/>)
 
-        const gitHubLink = screen.getByTitle(/GitHub/)
+        gitHubLink = screen.getByTitle(/GitHub/)
 
         expect(gitHubLink).toBeInTheDocument()
         expect(gitHubLink.tagName).toBe('A')
