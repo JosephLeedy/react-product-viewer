@@ -3,7 +3,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import {Github} from 'react-bootstrap-icons'
 
-export default () => {
+export default function Footer() {
     return (
         <footer className="bg-body-tertiary mt-2 mt-lg-5 pt-4" data-testid="page-footer">
             <Container>
