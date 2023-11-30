@@ -3,7 +3,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import {Search} from 'react-bootstrap-icons'
-import CategoryMenu from './navigation/CategoryMenu'
+import CategoryMenu from './Navigation/CategoryMenu'
 import './Navigation.scss';
 
 export default () => {
