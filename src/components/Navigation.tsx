@@ -6,7 +6,7 @@ import {Search} from 'react-bootstrap-icons'
 import CategoryMenu from './Navigation/CategoryMenu'
 import './Navigation.scss';
 
-export default function Navigation() {
+export default function Navigation(): React.JSX.Element {
     return (
         <header data-testid="page-header">
             <Navbar expand="lg" className="bg-body-tertiary">
