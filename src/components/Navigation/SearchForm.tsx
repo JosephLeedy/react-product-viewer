@@ -8,7 +8,7 @@ export default function SearchForm(): React.JSX.Element {
         <Form role="search">
             <InputGroup>
                 <InputGroup.Text>
-                    <Search/>
+                    <Search aria-hidden/>
                 </InputGroup.Text>
                 <Form.Control type="search" placeholder="Search catalog"/>
             </InputGroup>
