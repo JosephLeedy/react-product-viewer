@@ -10,7 +10,7 @@ export default function SearchForm(): React.JSX.Element {
                 <InputGroup.Text>
                     <Search/>
                 </InputGroup.Text>
-                <Form.Control type="search" placeholder="Search"/>
+                <Form.Control type="search" placeholder="Search catalog"/>
             </InputGroup>
         </Form>
     )
