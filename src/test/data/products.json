@@ -4869,7 +4869,7 @@
     },
     {
       "id": 2045,
-      "sku": "Test Disabled Product",
+      "sku": "TST-DIS-PRO",
       "name": "Test Disabled Product",
       "attribute_set_id": 4,
       "price": 0.00,

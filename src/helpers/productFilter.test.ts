@@ -3,6 +3,7 @@ import {
     filterEnabledProducts,
     filterProductsByCategoryId,
     filterProductsByName,
+    filterProductsByNameOrSku,
     filterProductsBySku,
     filterUncomplexProducts
 } from './productFilter'
@@ -121,6 +122,45 @@ describe('Product Filtering Helpers', (): void => {
         ])('returns products $matchType matching SKU "$sku"', ({sku, matchingIds}): void => {
             const expectedProducts: Product[] = products.filter((product: Product) => matchingIds.includes(product.id))
             const matchedProducts: Product[] = filterProductsBySku(products, sku)
+
+            expect(matchedProducts).not.toBeEmpty()
+            expect(matchedProducts).toEqual(expectedProducts)
+        })
+    })
+
+    describe('Filter Products by Name or SKU', (): void => {
+        it.each([
+            {
+                matchType: 'name',
+                nameOrSku: 'Luma',
+                matchingIds: [
+                    2042
+                ]
+            },
+            {
+                matchType: 'SKU',
+                nameOrSku: '24-WG083',
+                matchingIds: [
+                    30,
+                    31,
+                    32
+                ]
+            },
+            {
+                matchType: 'name or SKU',
+                nameOrSku: 'bl',
+                matchingIds: [
+                    2045,
+                    26,
+                    29,
+                    32
+                ]
+            },
+        ])('returns products matching the $matchType "$nameOrSku"', ({nameOrSku, matchingIds}): void => {
+            const expectedProducts: Product[] = products.filter((product: Product) => matchingIds.includes(product.id))
+            const matchedProducts: Product[] = filterProductsByNameOrSku(products, nameOrSku)
+
+            matchedProducts.sort((product0: Product, product1: Product) => product0.id - product1.id)
 
             expect(matchedProducts).not.toBeEmpty()
             expect(matchedProducts).toEqual(expectedProducts)
