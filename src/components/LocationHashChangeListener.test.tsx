@@ -47,6 +47,43 @@ describe('Location Hash Change Listener Component', (): void => {
         })
     })
 
+    it('updates the search query when the user location hash changes', async (): Promise<void> => {
+        const PageTitleComponent = (): React.JSX.Element => {
+            const {searchQuery} = useSearchQueryContext()
+
+            return (
+                searchQuery.length > 0
+                    ? <h2>Search Results for "{searchQuery}"</h2>
+                    : <h2>Category Name</h2>
+            )
+        }
+
+        Object.defineProperty(window, 'location', {value: {hash: '#category'}})
+
+        render(
+            <SearchQueryContextProvider>
+                <CurrentCategoryContextProvider categories={rootCategory.children_data}>
+                    <PageTitleComponent/>
+                    <CurrentProductFilterContextProvider>
+                        <LocationHashChangeListener
+                            categories={rootCategory.children_data}
+                            currentPage={1}
+                            setCurrentPage={(): void => {}}
+                        />
+                    </CurrentProductFilterContextProvider>
+                </CurrentCategoryContextProvider>
+            </SearchQueryContextProvider>
+        )
+
+        Object.defineProperty(window, 'location', {value: {hash: '#search?query=test'}})
+
+        await waitFor((): void => {
+            window.dispatchEvent(new Event('hashchange'))
+
+            expect(screen.getByRole('heading', {level: 2, name: /^Search Results/})).toBeInTheDocument()
+        })
+    })
+
     it('updates the current category when the location hash changes', (): void => {
         const CategoryNameComponent = (): React.JSX.Element => {
             const {currentCategory} = useCurrentCategoryContext()

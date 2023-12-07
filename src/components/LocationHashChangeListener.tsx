@@ -33,6 +33,17 @@ export default function LocationHashChangeListener(
 
         setSearchQuery('')
     }
+    const updateSearchQuery = (): void => {
+        const queryParameters: string = window.location.hash.substring(window.location.hash.indexOf('?'))
+        const urlSearchParameters: URLSearchParams = new URLSearchParams(queryParameters)
+        const query: string | null = urlSearchParameters.get('query')
+
+        if (query === null || searchQueryRef.current === query) {
+            return
+        }
+
+        setSearchQuery(query)
+    }
     const updateCurrentCategory = (): void => {
         const locationHashSegments: string[] = window.location.hash.match(/#?([^?]*)\??/)![1].split('/')
         let currentCategory: Category | null
@@ -95,6 +106,7 @@ export default function LocationHashChangeListener(
     useEffect((): void => {
         window.addEventListener('hashchange', (): void => {
             resetSearchQuery()
+            updateSearchQuery()
             updateCurrentCategory()
             resetCurrentPage()
             resetCurrentProductFilter()
