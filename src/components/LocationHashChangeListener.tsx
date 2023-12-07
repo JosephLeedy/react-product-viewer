@@ -1,4 +1,5 @@
 import React, {useEffect, useRef} from 'react'
+import {useSearchQueryContext} from '../contexts/SearchQueryContext'
 import {useCurrentCategoryContext} from '../contexts/CurrentCategoryContext'
 import {useCurrentProductFilterContext} from '../contexts/CurrentProductFilterContext'
 import {findCategoryByLocationHash} from '../utilities/CategoryFinder'
@@ -19,10 +20,19 @@ export default function LocationHashChangeListener(
         setCurrentPage
     }: LocationHashChangeListenerProperties
 ): null {
+    const {searchQuery, setSearchQuery} = useSearchQueryContext()
     const {setCurrentCategory} = useCurrentCategoryContext()
     const {currentProductFilter, setCurrentProductFilter} = useCurrentProductFilterContext()
+    const searchQueryRef: React.MutableRefObject<string> = useRef<string>('')
     const pageRef: React.MutableRefObject<number> = useRef<number>(1)
     const productFilterRef: React.MutableRefObject<ProductFilter> = useRef<ProductFilter>({} as ProductFilter)
+    const resetSearchQuery = (): void => {
+        if (window.location.hash.startsWith('#search') || searchQueryRef.current.length === 0) {
+            return
+        }
+
+        setSearchQuery('')
+    }
     const updateCurrentCategory = (): void => {
         const locationHashSegments: string[] = window.location.hash.match(/#?([^?]*)\??/)![1].split('/')
         let currentCategory: Category | null
@@ -78,11 +88,13 @@ export default function LocationHashChangeListener(
         setCurrentProductFilter(currentProductFilter)
     }
 
+    searchQueryRef.current = searchQuery
     pageRef.current = currentPage
     productFilterRef.current = currentProductFilter
 
     useEffect((): void => {
         window.addEventListener('hashchange', (): void => {
+            resetSearchQuery()
             updateCurrentCategory()
             resetCurrentPage()
             resetCurrentProductFilter()

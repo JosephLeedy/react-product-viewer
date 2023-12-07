@@ -10,6 +10,43 @@ import LocationHashChangeListener from './LocationHashChangeListener'
 import rootCategory from '../test/data/categories.json'
 
 describe('Location Hash Change Listener Component', (): void => {
+    it('resets the search query when the user leaves the search page', async (): Promise<void> => {
+        const PageTitleComponent = (): React.JSX.Element => {
+            const {searchQuery} = useSearchQueryContext()
+
+            return (
+                searchQuery.length > 0
+                    ? <h2>Search Results for "{searchQuery}"</h2>
+                    : <h2>Category Name</h2>
+            )
+        }
+
+        Object.defineProperty(window, 'location', {value: {hash: '#search?query=test'}})
+
+        render(
+            <SearchQueryContextProvider>
+                <CurrentCategoryContextProvider categories={rootCategory.children_data}>
+                    <PageTitleComponent/>
+                    <CurrentProductFilterContextProvider>
+                        <LocationHashChangeListener
+                            categories={rootCategory.children_data}
+                            currentPage={1}
+                            setCurrentPage={(): void => {}}
+                        />
+                    </CurrentProductFilterContextProvider>
+                </CurrentCategoryContextProvider>
+            </SearchQueryContextProvider>
+        )
+
+        Object.defineProperty(window, 'location', {value: {hash: '#category'}})
+
+        await waitFor((): void => {
+            window.dispatchEvent(new Event('hashchange'))
+
+            expect(screen.queryByRole('heading', {level: 2, name: /^Search Results/})).not.toBeInTheDocument()
+        })
+    })
+
     it('updates the current category when the location hash changes', (): void => {
         const CategoryNameComponent = (): React.JSX.Element => {
             const {currentCategory} = useCurrentCategoryContext()
