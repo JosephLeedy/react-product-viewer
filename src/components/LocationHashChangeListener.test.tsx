@@ -1,5 +1,6 @@
 import React from 'react'
 import {fireEvent, render, screen, waitFor} from '@testing-library/react'
+import {SearchQueryContextProvider, useSearchQueryContext} from '../contexts/SearchQueryContext'
 import {CurrentCategoryContextProvider, useCurrentCategoryContext} from '../contexts/CurrentCategoryContext'
 import {
     CurrentProductFilterContextProvider,
@@ -27,17 +28,19 @@ describe('Location Hash Change Listener Component', (): void => {
         Object.defineProperty(window, 'location', {value: {hash: '#women'}})
 
         render(
-            <CurrentCategoryContextProvider categories={rootCategory.children_data}>
-                <CategoryNameComponent/>
-                <UpdateCurrentCategoryButton/>
-                <CurrentProductFilterContextProvider>
-                    <LocationHashChangeListener
-                        categories={rootCategory.children_data}
-                        currentPage={1}
-                        setCurrentPage={(): void => {}}
-                    />
-                </CurrentProductFilterContextProvider>
-            </CurrentCategoryContextProvider>
+            <SearchQueryContextProvider>
+                <CurrentCategoryContextProvider categories={rootCategory.children_data}>
+                    <CategoryNameComponent/>
+                    <UpdateCurrentCategoryButton/>
+                    <CurrentProductFilterContextProvider>
+                        <LocationHashChangeListener
+                            categories={rootCategory.children_data}
+                            currentPage={1}
+                            setCurrentPage={(): void => {}}
+                        />
+                    </CurrentProductFilterContextProvider>
+                </CurrentCategoryContextProvider>
+            </SearchQueryContextProvider>
         )
 
         fireEvent.click(screen.getByText('Update Category'))
@@ -53,15 +56,17 @@ describe('Location Hash Change Listener Component', (): void => {
         }
 
         render(
-            <CurrentCategoryContextProvider categories={rootCategory.children_data}>
-                <CurrentProductFilterContextProvider>
-                    <LocationHashChangeListener
-                        categories={rootCategory.children_data}
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
-                    />
-                </CurrentProductFilterContextProvider>
-            </CurrentCategoryContextProvider>
+            <SearchQueryContextProvider>
+                <CurrentCategoryContextProvider categories={rootCategory.children_data}>
+                    <CurrentProductFilterContextProvider>
+                        <LocationHashChangeListener
+                            categories={rootCategory.children_data}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                        />
+                    </CurrentProductFilterContextProvider>
+                </CurrentCategoryContextProvider>
+            </SearchQueryContextProvider>
         )
 
         Object.defineProperty(window, 'location', {value: {hash: '#gear/bags?page=2'}})
@@ -88,16 +93,18 @@ describe('Location Hash Change Listener Component', (): void => {
         Object.defineProperty(window, 'location', {value: {hash: '#gear?filter=name&keyword=Joust'}})
 
         render(
-            <CurrentCategoryContextProvider categories={rootCategory.children_data}>
-                <CurrentProductFilterContextProvider>
-                    <CurrentProductFilterContextConsumer/>
-                    <LocationHashChangeListener
-                        categories={rootCategory.children_data}
-                        currentPage={1}
-                        setCurrentPage={(): void => {}}
-                    />
-                </CurrentProductFilterContextProvider>
-            </CurrentCategoryContextProvider>
+            <SearchQueryContextProvider>
+                <CurrentCategoryContextProvider categories={rootCategory.children_data}>
+                    <CurrentProductFilterContextProvider>
+                        <CurrentProductFilterContextConsumer/>
+                        <LocationHashChangeListener
+                            categories={rootCategory.children_data}
+                            currentPage={1}
+                            setCurrentPage={(): void => {}}
+                        />
+                    </CurrentProductFilterContextProvider>
+                </CurrentCategoryContextProvider>
+            </SearchQueryContextProvider>
         )
 
         Object.defineProperty(window, 'location', {value: {hash: '#gear?filter=sku&keyword=24-MB0'}})
