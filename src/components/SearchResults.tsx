@@ -102,7 +102,7 @@ export default function SearchResults(
             }
             {!isLoadingProducts && errorMessage.length === 0 && foundProducts.length === 0 && searchQuery.length > 0 &&
                 <Row className="mt-5">
-                    <Alert variant="info" className="d-flex">
+                    <Alert variant="warning" className="d-flex">
                         <ExclamationTriangleFill size={24} className="me-2" title="Warning"/>
                         There are no products matching your query. Please try another query.
                     </Alert>
