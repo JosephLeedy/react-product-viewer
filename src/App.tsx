@@ -5,6 +5,7 @@ import {CurrentCategoryContextProvider} from './contexts/CurrentCategoryContext'
 import {CurrentProductFilterContextProvider} from './contexts/CurrentProductFilterContext'
 import useCategories from './hooks/useCategories'
 import Navigation from './components/Navigation'
+import SearchResults from './components/SearchResults'
 import LocationHashChangeListener from './components/LocationHashChangeListener'
 import ProductGrid from './components/ProductGrid'
 import Footer from './components/Footer'
@@ -21,6 +22,7 @@ export default function App(): React.JSX.Element {
             <CategoriesContextProvider isLoadingCategories={isLoadingCategories} categories={categories}>
                 <SearchQueryContextProvider>
                     <Navigation/>
+                    <SearchResults currentPage={currentPage} setCurrentPage={setCurrentPage}/>
                     <CurrentCategoryContextProvider categories={categories}>
                         <CurrentProductFilterContextProvider>
                             <LocationHashChangeListener
