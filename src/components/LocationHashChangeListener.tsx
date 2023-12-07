@@ -87,7 +87,8 @@ export default function LocationHashChangeListener(
         }
 
         if (
-            productFilterRef.current.isUpdated
+            window.location.hash.startsWith('#search')
+            || productFilterRef.current.isUpdated
             || (
                 currentProductFilter.type === productFilterRef.current.type
                 && currentProductFilter.value === productFilterRef.current.value
