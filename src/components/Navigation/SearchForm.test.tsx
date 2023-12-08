@@ -75,8 +75,6 @@ describe('Search Form Component', (): void => {
 
         await user.clear(screen.getByPlaceholderText('Search catalog'))
 
-        screen.debug()
-
         await waitFor((): void => {
             expect(screen.queryByText('Search Results fore "test"')).not.toBeInTheDocument()
             expect(window.location.hash).toEqual('#search')
