@@ -37,8 +37,8 @@ describe('useCategories Hook', (): void => {
                 json: async (): Promise<object> => ({}),
             } as Response)
         })
-        const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => undefined)
 
+        const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => undefined)
         const {result} = renderHook(useCategories)
 
         await waitFor((): void => {
