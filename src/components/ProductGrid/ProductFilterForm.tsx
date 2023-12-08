@@ -6,7 +6,7 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import {Filter} from 'react-bootstrap-icons'
 import type ProductFilter from '../../types/ProductFilter'
 import {ProductFilterType} from '../../types/ProductFilter'
-import './ProductFilterForm.scss';
+import './ProductFilterForm.scss'
 
 export default function ProductFilterForm(): React.JSX.Element {
     const {currentProductFilter, setCurrentProductFilter} = useCurrentProductFilterContext()

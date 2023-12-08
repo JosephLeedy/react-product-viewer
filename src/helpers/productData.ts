@@ -28,7 +28,7 @@ export function getProductName(product: Product): string {
 }
 
 export function getProductDescription(product: Product): string {
-    let productDescription: string = getCustomAttribute(product, 'description') as string;
+    let productDescription: string = getCustomAttribute(product, 'description') as string
 
     // Get the first paragraph from the product description
     productDescription = productDescription.replace(/^<p>([^<]+)<\/p>.*$/s, '$1')

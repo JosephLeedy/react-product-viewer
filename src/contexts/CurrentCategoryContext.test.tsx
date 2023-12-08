@@ -53,7 +53,7 @@ describe('Current Category Context', (): void => {
         )
 
         expect(screen.queryByText('Test')).not.toBeInTheDocument()
-    });
+    })
 
     it('does not provide a category if the location hash is not a category URI', (): void => {
         const SearchResultsHeadingComponent = (): React.JSX.Element => {
@@ -71,7 +71,7 @@ describe('Current Category Context', (): void => {
         )
 
         expect(screen.getByText('Search Results')).toBeInTheDocument()
-    });
+    })
 
     it('updates the current category', (): void => {
         let setCurrentCategory: (currentCategory: Category) => void
@@ -112,5 +112,5 @@ describe('Current Category Context', (): void => {
         fireEvent.click(screen.getByText('Update Category'))
 
         expect(screen.getByText('Training')).toBeInTheDocument()
-    });
+    })
 })

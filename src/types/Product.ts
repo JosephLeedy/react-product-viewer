@@ -126,9 +126,9 @@ export interface DownloadableProductLink {
 }
 
 export interface FileContent {
-    file_data: string;
-    name: string;
-    extension_attributes?: any[];
+    file_data: string
+    name: string
+    extension_attributes?: any[]
 }
 
 export interface DownloadableProductSample {

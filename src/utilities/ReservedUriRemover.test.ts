@@ -9,7 +9,7 @@ describe('Reserved URI Remover', (): void => {
         removeReservedUrisFromLocationHash(locationHashSegments)
 
         expect(locationHashSegments[0]).toEqual('')
-    });
+    })
 
     it('does not remove an unreserved keyword from a location hash', (): void => {
         const locationHashSegments: string[] = [
@@ -19,7 +19,7 @@ describe('Reserved URI Remover', (): void => {
         removeReservedUrisFromLocationHash(locationHashSegments)
 
         expect(locationHashSegments[0]).toEqual('women')
-    });
+    })
 
     it('does not remove a reserved keyword from anywhere else in a location hash', (): void => {
         const locationHashSegments: string[] = [
@@ -30,5 +30,5 @@ describe('Reserved URI Remover', (): void => {
         removeReservedUrisFromLocationHash(locationHashSegments)
 
         expect(locationHashSegments).toEqual(['women', 'search'])
-    });
+    })
 })

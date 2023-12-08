@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FormEvent} from 'react';
+import React, {ChangeEvent, FormEvent} from 'react'
 import {useSearchQueryContext} from '../../contexts/SearchQueryContext'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'

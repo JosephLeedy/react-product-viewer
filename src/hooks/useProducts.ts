@@ -16,7 +16,7 @@ export default function useProducts(): UseProducts {
         await fetch('/data/products.json')
             .then(async (response: Response): Promise<void> => {
                 if (!response.ok) {
-                    throw new Error(`${response.status} ${response.statusText}`);
+                    throw new Error(`${response.status} ${response.statusText}`)
                 }
 
                 setProducts(((await response.json()) as ProductsResponse).items)

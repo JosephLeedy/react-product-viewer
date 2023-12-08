@@ -15,7 +15,7 @@ export default function useCategories(): UseCategories {
                 let rootCategory: Category
 
                 if (!response.ok) {
-                    throw new Error(`Could not load categories. Response: ${response.status} ${response.statusText}`);
+                    throw new Error(`Could not load categories. Response: ${response.status} ${response.statusText}`)
                 }
 
                 rootCategory = await response.json() as Category

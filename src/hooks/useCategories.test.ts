@@ -26,7 +26,7 @@ describe('useCategories Hook', (): void => {
         })
 
         expect(result.current.categories).toEqual(rootCategory.children_data)
-    });
+    })
 
     it('logs an error if categories cannot be fetched', async (): Promise<void> => {
         vi.spyOn(global, 'fetch').mockImplementation((): Promise<Response> => {
@@ -47,5 +47,5 @@ describe('useCategories Hook', (): void => {
 
         expect(consoleMock).toBeCalledWith(new Error('Could not load categories. Response: 400 Bad Request'))
         expect(result.current.categories).toEqual([])
-    });
+    })
 })

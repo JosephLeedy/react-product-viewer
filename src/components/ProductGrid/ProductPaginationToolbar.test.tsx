@@ -43,7 +43,7 @@ describe('Product Pagination Toolbar Component', (): void => {
     })
 
     it('does not render a pager if there is only one page', (): void => {
-        const giftCardProducts: Product[] = filterProductsByCategoryId(products, 41);
+        const giftCardProducts: Product[] = filterProductsByCategoryId(products, 41)
         const productPaginationResult: ProductPaginationResult = paginateProducts(giftCardProducts, 1)
 
         render(<ProductPaginationToolbar currentPage={1} setCurrentPage={setCurrentPage} {...productPaginationResult}/>)
@@ -83,7 +83,7 @@ describe('Product Pagination Toolbar Component', (): void => {
         let pageLink: HTMLAnchorElement
 
         // Fix "Not implemented" error thrown by JSDOM
-        Object.defineProperty(window, 'scrollTo', {value: (): void => {}, writable: true});
+        Object.defineProperty(window, 'scrollTo', {value: (): void => {}, writable: true})
 
         render(
             <ProductPaginationToolbar

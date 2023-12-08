@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar'
 import CategoryMenu from './Navigation/CategoryMenu'
 import SearchForm from './Navigation/SearchForm'
-import './Navigation.scss';
+import './Navigation.scss'
 
 export default function Navigation(): React.JSX.Element {
     return (

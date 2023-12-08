@@ -39,7 +39,7 @@ export function filterProductsByCategoryId(productsToFilter: Product[], category
             (categoryLink: CategoryLink): boolean => parseInt(categoryLink.category_id, 10) === categoryId
         )
 
-        return categoryLink !== undefined;
+        return categoryLink !== undefined
     })
 }
 
