@@ -6,26 +6,21 @@ import categories from '../../test/data/categories.json'
 
 describe('Category Menu Component', (): void => {
     it('renders a loading indicator until categories are fetched', async (): Promise<void> => {
+        let loadingIndicator: HTMLElement
+
         render(
             <CategoriesContextProvider isLoadingCategories={true} categories={[]}>
                 <CategoryMenu/>
             </CategoriesContextProvider>
         )
 
-        const loadingIndicator: HTMLElement = screen.getByTestId('categories-loading-indicator')
+        loadingIndicator = screen.getByTestId('categories-loading-indicator')
 
         expect(loadingIndicator).toBeInTheDocument()
         expect(screen.getByText('Loading categories...')).toBeInTheDocument()
     })
 
     it('renders fetched categories as menu items', async (): Promise<void> => {
-        render(
-            <CategoriesContextProvider isLoadingCategories={false} categories={categories.children_data}>
-                <CategoryMenu/>
-            </CategoriesContextProvider>
-        )
-
-        const categoryMenu: HTMLElement = await screen.findByTestId('category-menu')
         const filterCategories = (unfilteredCategories: Category[]) => unfilteredCategories.filter(
             (category: Category): boolean => {
                 if (!category.is_active) {
@@ -52,7 +47,16 @@ describe('Category Menu Component', (): void => {
                 category.children_data.forEach(getCategoryNames)
             }
         }
+        let categoryMenu: HTMLElement
         let categoryName: string
+
+        render(
+            <CategoriesContextProvider isLoadingCategories={false} categories={categories.children_data}>
+                <CategoryMenu/>
+            </CategoriesContextProvider>
+        )
+
+        categoryMenu = await screen.findByTestId('category-menu')
 
         filteredCategories.forEach(getCategoryNames)
 
