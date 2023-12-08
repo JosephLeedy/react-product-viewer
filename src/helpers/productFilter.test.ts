@@ -156,6 +156,17 @@ describe('Product Filtering Helpers', (): void => {
                     32
                 ]
             },
+            {
+                matchType: 'name and SKU',
+                nameOrSku: 'green',
+                matchingIds: [
+                    111,
+                    114,
+                    117,
+                    120,
+                    123
+                ]
+            },
         ])('returns products matching the $matchType "$nameOrSku"', ({nameOrSku, matchingIds}): void => {
             const expectedProducts: Product[] = products.filter((product: Product) => matchingIds.includes(product.id))
             const matchedProducts: Product[] = filterProductsByNameOrSku(products, nameOrSku)

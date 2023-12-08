@@ -61,10 +61,6 @@ export function filterProductsByNameOrSku(productsToFilter: Product[], nameOrSku
                 (product1: Product): boolean => product0.id === product1.id
             )
         ),
-        ...productsFilteredBySku.filter(
-            (product0: Product): boolean => !productsFilteredByName.some(
-                (product1: Product): boolean => product0.id === product1.id
-            )
-        )
+        ...productsFilteredBySku
     ]
 }
