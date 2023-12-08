@@ -1,5 +1,5 @@
 export interface ProductsResponse {
-    items: Product[],
+    items: Product[]
     total_count: number
 }
 
