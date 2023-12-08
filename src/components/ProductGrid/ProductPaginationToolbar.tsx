@@ -5,7 +5,7 @@ import Pagination from 'react-bootstrap/Pagination'
 
 type ProductPaginationToolbarProperties = {
     currentPage: number
-    setCurrentPage: (currenPage: number) => void
+    setCurrentPage: (currentPage: number) => void
     pageCount: number
     productCount: number
     startingProductIndex: number
