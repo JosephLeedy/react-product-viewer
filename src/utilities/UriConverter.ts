@@ -4,6 +4,7 @@ export const convertTitleToUri = (title: string): string => title
     .replace(/[^a-z0-9-]+/g, '-')
     .replace(/-$/, '')
 
-export const convertUriToTitle = (uri: string): string => uri.replace(/-s-/g, "'s-")
+export const convertUriToTitle = (uri: string): string => uri
+    .replace(/-s-/g, "'s-")
     .replace(/-+/g, ' ')
     .replace(/(?<= )\S|^./g, (firstLetter: string) => firstLetter.toUpperCase())
