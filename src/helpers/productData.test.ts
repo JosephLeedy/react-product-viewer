@@ -9,8 +9,8 @@ import {
     getSalePrice,
     paginateProducts
 } from './productData'
-import Product from '../types/Product'
-import ProductPaginationResult from '../types/ProductPaginationResult'
+import type Product from '../types/Product'
+import type ProductPaginationResult from '../types/ProductPaginationResult'
 import productData from '../test/data/products.json'
 
 const products: Product[] = productData.items as Product[]

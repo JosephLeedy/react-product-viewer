@@ -1,4 +1,4 @@
-import Product from './Product'
+import type Product from './Product'
 
 export default interface ProductPaginationResult {
     paginatedProducts: Product[]

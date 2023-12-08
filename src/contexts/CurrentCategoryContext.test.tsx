@@ -2,7 +2,7 @@ import React from 'react'
 import {fireEvent, render, screen} from '@testing-library/react'
 import {CurrentCategoryContextProvider, useCurrentCategoryContext} from './CurrentCategoryContext'
 import {findCategoryByLocationHash} from '../utilities/CategoryFinder'
-import Category from '../types/Category'
+import type Category from '../types/Category'
 import rootCategory from '../test/data/categories.json'
 
 describe('Current Category Context', (): void => {

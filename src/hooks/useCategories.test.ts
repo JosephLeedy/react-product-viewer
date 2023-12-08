@@ -1,6 +1,6 @@
 import {renderHook, waitFor} from '@testing-library/react'
 import useCategories from './useCategories'
-import Category from '../types/Category'
+import type Category from '../types/Category'
 import rootCategory from '../test/data/categories.json'
 
 describe('useCategories Hook', (): void => {

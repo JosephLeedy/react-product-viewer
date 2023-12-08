@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react'
-import Product, {ProductsResponse} from '../types/Product'
+import type Product from '../types/Product'
+import type {ProductsResponse} from '../types/Product'
 
 type UseProducts = {
     isLoadingProducts: boolean

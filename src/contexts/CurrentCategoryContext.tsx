@@ -1,7 +1,7 @@
 import React, {createContext, Dispatch, ReactNode, SetStateAction, useContext, useMemo, useState} from 'react'
 import {removeReservedUrisFromLocationHash} from '../utilities/ReservedUriRemover'
 import {findCategoryByLocationHash} from '../utilities/CategoryFinder'
-import Category from '../types/Category'
+import type Category from '../types/Category'
 
 type CurrentCategoryContextValue = {
     currentCategory: Category | null

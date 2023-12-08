@@ -4,7 +4,8 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import {Filter} from 'react-bootstrap-icons'
-import ProductFilter, {ProductFilterType} from '../../types/ProductFilter'
+import type ProductFilter from '../../types/ProductFilter'
+import {ProductFilterType} from '../../types/ProductFilter'
 import './ProductFilterForm.scss';
 
 export default function ProductFilterForm(): React.JSX.Element {

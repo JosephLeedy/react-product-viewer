@@ -1,5 +1,5 @@
 import {findCategoryByLocationHash, findCategoryByName} from './CategoryFinder'
-import Category from '../types/Category'
+import type Category from '../types/Category'
 import categories from '../test/data/categories.json'
 
 describe('Category Finder Utility', (): void => {

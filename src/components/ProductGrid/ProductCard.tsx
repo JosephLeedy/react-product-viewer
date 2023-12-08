@@ -7,7 +7,7 @@ import {
     getProductUrl,
     getSalePrice
 } from '../../helpers/productData'
-import Product from '../../types/Product'
+import type Product from '../../types/Product'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'

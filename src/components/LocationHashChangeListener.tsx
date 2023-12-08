@@ -4,7 +4,7 @@ import {useCurrentCategoryContext} from '../contexts/CurrentCategoryContext'
 import {useCurrentProductFilterContext} from '../contexts/CurrentProductFilterContext'
 import {findCategoryByLocationHash} from '../utilities/CategoryFinder'
 import {removeReservedUrisFromLocationHash} from '../utilities/ReservedUriRemover'
-import Category from '../types/Category'
+import type Category from '../types/Category'
 import ProductFilter, {ProductFilterType} from '../types/ProductFilter'
 
 type LocationHashChangeListenerProperties = {

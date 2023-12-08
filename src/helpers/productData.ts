@@ -1,16 +1,19 @@
 import {filterComplexProducts} from './productFilter'
-import Product, {
+import type Product from '../types/Product'
+import type {
     BundleProductLink,
     BundleProductOption,
     CustomProductAttribute,
-    LinkType,
     MediaGalleryEntry,
+    ProductLink
+} from '../types/Product'
+import {
     MediaGalleryEntryType,
-    ProductLink,
+    LinkType,
     ProductTypeId,
     ProductVisibility
 } from '../types/Product'
-import ProductPaginationResult from '../types/ProductPaginationResult'
+import type ProductPaginationResult from '../types/ProductPaginationResult'
 
 export function getCustomAttribute(product: Product, attributeCode: string): string | string[] {
     const customAttribute: CustomProductAttribute | undefined = product.custom_attributes.find(

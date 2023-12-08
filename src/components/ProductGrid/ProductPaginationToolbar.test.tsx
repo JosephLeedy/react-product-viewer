@@ -2,7 +2,7 @@ import {fireEvent, render, screen} from '@testing-library/react'
 import {paginateProducts} from '../../helpers/productData'
 import {filterProductsByCategoryId} from '../../helpers/productFilter'
 import ProductPaginationToolbar from './ProductPaginationToolbar'
-import Product from '../../types/Product'
+import type Product from '../../types/Product'
 import ProductPaginationResult from '../../types/ProductPaginationResult'
 import productData from '../../test/data/products.json'
 

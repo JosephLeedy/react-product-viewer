@@ -1,5 +1,6 @@
 import React, {createContext, Dispatch, SetStateAction, useContext, useMemo, useState} from 'react'
-import ProductFilter, {ProductFilterType} from '../types/ProductFilter'
+import type ProductFilter from '../types/ProductFilter'
+import {ProductFilterType} from '../types/ProductFilter'
 
 type CurrentProductFilterContextValue = {
     currentProductFilter: ProductFilter

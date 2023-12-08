@@ -2,7 +2,7 @@ import React from 'react'
 import Spinner from 'react-bootstrap/Spinner'
 import {useCategoriesContext} from '../../contexts/CategoriesContext'
 import {convertTitleToUri} from '../../utilities/UriConverter'
-import Category from '../../types/Category'
+import type Category from '../../types/Category'
 
 export default function CategoryMenu(): React.JSX.Element | null {
     const {isLoadingCategories, categories} = useCategoriesContext()

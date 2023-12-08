@@ -1,4 +1,6 @@
-import Product, {CategoryLink, ProductStatus, ProductTypeId} from '../types/Product'
+import type Product from '../types/Product'
+import type {CategoryLink} from '../types/Product'
+import {ProductStatus, ProductTypeId} from '../types/Product'
 
 export function filterEnabledProducts(productsToFilter: Product[]): Product[] {
     return productsToFilter.filter((product: Product): boolean => product.status === ProductStatus.Enabled)

@@ -7,7 +7,8 @@ import {
     filterProductsBySku,
     filterUncomplexProducts
 } from './productFilter'
-import Product, {ProductStatus, ProductTypeId} from '../types/Product'
+import type Product from '../types/Product'
+import {ProductStatus, ProductTypeId} from '../types/Product'
 import productData from '../test/data/products.json'
 
 const products: Product[] = productData.items as Product[]

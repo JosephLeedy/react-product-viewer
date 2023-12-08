@@ -19,9 +19,9 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Spinner from 'react-bootstrap/Spinner'
 import {ExclamationTriangleFill, XCircleFill} from 'react-bootstrap-icons'
-import Product from '../types/Product'
+import type Product from '../types/Product'
 import {ProductFilterType} from '../types/ProductFilter'
-import ProductPaginationResult from '../types/ProductPaginationResult'
+import type ProductPaginationResult from '../types/ProductPaginationResult'
 import './ProductGrid.scss'
 
 type ProductGridProperties = {

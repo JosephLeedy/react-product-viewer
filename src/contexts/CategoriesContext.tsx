@@ -1,5 +1,5 @@
 import React, {createContext, useContext} from 'react'
-import Category from '../types/Category'
+import type Category from '../types/Category'
 
 type CategoriesContextValue = {
     isLoadingCategories: boolean

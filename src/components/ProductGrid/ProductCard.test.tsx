@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react'
 import {formatPrice, getProductDescription, getProductUrl, getSalePrice} from '../../helpers/productData'
-import Product from '../../types/Product'
+import type Product from '../../types/Product'
 import ProductCard from './ProductCard'
 import productData from '../../test/data/products.json'
 

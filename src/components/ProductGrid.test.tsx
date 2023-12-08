@@ -4,8 +4,8 @@ import {CurrentCategoryContextProvider} from '../contexts/CurrentCategoryContext
 import {CurrentProductFilterContextProvider} from '../contexts/CurrentProductFilterContext'
 import useProducts from '../hooks/useProducts'
 import ProductGrid from './ProductGrid'
-import Category from '../types/Category'
-import Product from '../types/Product'
+import type Category from '../types/Category'
+import type Product from '../types/Product'
 import rootCategory from '../test/data/categories.json'
 import productData from '../test/data/products.json'
 

@@ -1,5 +1,5 @@
 import {convertTitleToUri} from './UriConverter'
-import Category from '../types/Category'
+import type Category from '../types/Category'
 
 export function findCategoryByLocationHash(
     searchCategories: Category[],

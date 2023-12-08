@@ -1,6 +1,6 @@
 import {renderHook, waitFor} from '@testing-library/react'
 import useProducts from './useProducts'
-import {ProductsResponse} from '../types/Product'
+import type {ProductsResponse} from '../types/Product'
 import productsResponse, {items as products} from '../test/data/products.json'
 
 describe('useProducts Hook', (): void => {

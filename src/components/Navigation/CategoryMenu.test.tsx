@@ -1,7 +1,7 @@
 import {render, screen} from '@testing-library/react'
 import CategoryMenu from './CategoryMenu'
 import {CategoriesContextProvider} from '../../contexts/CategoriesContext'
-import Category from '../../types/Category'
+import type Category from '../../types/Category'
 import categories from '../../test/data/categories.json'
 
 describe('Category Menu Component', (): void => {

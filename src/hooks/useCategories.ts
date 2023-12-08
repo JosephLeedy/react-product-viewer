@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import Category from '../types/Category'
+import type Category from '../types/Category'
 
 type UseCategories = {
     isLoadingCategories: boolean
