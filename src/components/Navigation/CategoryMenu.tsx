@@ -43,7 +43,7 @@ export default function CategoryMenu(): React.JSX.Element | null {
                 {hasChildren &&
                     <ul className="dropdown-menu">
                         {
-                            childCategories.map((childCategory: Category) => {
+                            childCategories.map((childCategory: Category): React.JSX.Element | null => {
                                 const categorySubMenu: React.JSX.Element | null = renderCategoryMenuItems(
                                     childCategory,
                                     true,
