@@ -1,6 +1,6 @@
 import {convertTitleToUri, convertUriToTitle} from './UriConverter'
 
-describe('URI Converter', () => {
+describe('URI Converter', (): void => {
     const testCases = [
         {
             title: 'Title',
@@ -20,11 +20,11 @@ describe('URI Converter', () => {
         }
     ]
 
-    test.each(testCases)('it converts a title to a URI ($title => $uri)', ({title, uri}) => {
+    it.each(testCases)('converts a title to a URI ($title => $uri)', ({title, uri}): void => {
         expect(convertTitleToUri(title)).toBe(uri)
     })
 
-    test.each(testCases)('it converts a URI to a title ($uri => $title)', ({uri, title}) => {
+    it.each(testCases)('converts a URI to a title ($uri => $title)', ({uri, title}): void => {
         expect(convertUriToTitle(uri)).toBe(title.trim())
     })
 })
