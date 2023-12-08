@@ -157,7 +157,7 @@ describe('Search Results Component', (): void => {
     it('renders a warning if no products match the search query', (): void => {
         let noMatchingProductsWarning: HTMLElement
 
-        Object.defineProperty(window, 'location', {value: {hash: '#search?query=Test'}})
+        Object.defineProperty(window, 'location', {value: {hash: '#search?query=purple'}})
 
         render(
             <SearchQueryContextProvider>
