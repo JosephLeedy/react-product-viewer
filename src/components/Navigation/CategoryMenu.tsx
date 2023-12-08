@@ -31,13 +31,13 @@ export default function CategoryMenu(): React.JSX.Element | null {
                 <a href={`#${uriSegments.join('/')}`}
                    onClick={handleMenuItemClick}
                    className={
-                       `nav-link` + (hasChildren ? ' dropdown-toggle' : '') + (isDropdownItem ? ' dropdown-item' : '')
+                       'nav-link' + (hasChildren ? ' dropdown-toggle' : '') + (isDropdownItem ? ' dropdown-item' : '')
                            + (isActive ? ' active' : '')
                    }
                    {...(hasChildren && {
-                       "role": "button",
-                       "data-bs-toggle": "dropdown",
-                       "aria-expanded": false
+                       'role': 'button',
+                       'data-bs-toggle': 'dropdown',
+                       'aria-expanded': false
                    })}
                 >{category.name}</a>
                 {hasChildren &&
