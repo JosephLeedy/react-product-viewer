@@ -1,4 +1,4 @@
-import {removeReservedUrisFromLocationHash} from './ReservedUriRemover.ts'
+import {removeReservedUrisFromLocationHash} from './ReservedUriRemover'
 
 describe('Reserved URI Remover', (): void => {
     it('removes a reserved keyword from the beginning of a location hash', (): void => {
