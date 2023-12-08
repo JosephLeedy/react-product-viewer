@@ -50,3 +50,17 @@ export function filterProductsByName(productsToFilter: Product[], name: string):
 export function filterProductsBySku(productsToFilter: Product[], sku: string): Product[] {
     return productsToFilter.filter((product: Product): boolean => product.sku.toLowerCase().includes(sku.toLowerCase()))
 }
+
+export function filterProductsByNameOrSku(productsToFilter: Product[], nameOrSku: string): Product[] {
+    const productsFilteredByName: Product[] = filterProductsByName(productsToFilter, nameOrSku)
+    const productsFilteredBySku: Product[] = filterProductsBySku(productsToFilter, nameOrSku)
+
+    return [
+        ...productsFilteredByName.filter(
+            (product0: Product): boolean => !productsFilteredBySku.some(
+                (product1: Product): boolean => product0.id === product1.id
+            )
+        ),
+        ...productsFilteredBySku
+    ]
+}

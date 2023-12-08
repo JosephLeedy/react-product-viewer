@@ -1,10 +1,8 @@
 import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar'
-import Form from 'react-bootstrap/Form'
-import InputGroup from 'react-bootstrap/InputGroup'
-import {Search} from 'react-bootstrap-icons'
 import CategoryMenu from './Navigation/CategoryMenu'
+import SearchForm from './Navigation/SearchForm'
 import './Navigation.scss';
 
 export default function Navigation(): React.JSX.Element {
@@ -16,14 +14,7 @@ export default function Navigation(): React.JSX.Element {
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
                         <CategoryMenu/>
-                        <Form role="search">
-                            <InputGroup>
-                                <InputGroup.Text>
-                                    <Search/>
-                                </InputGroup.Text>
-                                <Form.Control type="search" placeholder="Search"/>
-                            </InputGroup>
-                        </Form>
+                        <SearchForm/>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

@@ -1,5 +1,6 @@
 import React from 'react'
 import {fireEvent, render, screen, waitFor} from '@testing-library/react'
+import {SearchQueryContextProvider, useSearchQueryContext} from '../contexts/SearchQueryContext'
 import {CurrentCategoryContextProvider, useCurrentCategoryContext} from '../contexts/CurrentCategoryContext'
 import {
     CurrentProductFilterContextProvider,
@@ -9,6 +10,80 @@ import LocationHashChangeListener from './LocationHashChangeListener'
 import rootCategory from '../test/data/categories.json'
 
 describe('Location Hash Change Listener Component', (): void => {
+    it('resets the search query when the user leaves the search page', async (): Promise<void> => {
+        const PageTitleComponent = (): React.JSX.Element => {
+            const {searchQuery} = useSearchQueryContext()
+
+            return (
+                searchQuery.length > 0
+                    ? <h2>Search Results for "{searchQuery}"</h2>
+                    : <h2>Category Name</h2>
+            )
+        }
+
+        Object.defineProperty(window, 'location', {value: {hash: '#search?query=test'}})
+
+        render(
+            <SearchQueryContextProvider>
+                <CurrentCategoryContextProvider categories={rootCategory.children_data}>
+                    <PageTitleComponent/>
+                    <CurrentProductFilterContextProvider>
+                        <LocationHashChangeListener
+                            categories={rootCategory.children_data}
+                            currentPage={1}
+                            setCurrentPage={(): void => {}}
+                        />
+                    </CurrentProductFilterContextProvider>
+                </CurrentCategoryContextProvider>
+            </SearchQueryContextProvider>
+        )
+
+        Object.defineProperty(window, 'location', {value: {hash: '#category'}})
+
+        await waitFor((): void => {
+            window.dispatchEvent(new Event('hashchange'))
+
+            expect(screen.queryByRole('heading', {level: 2, name: /^Search Results/})).not.toBeInTheDocument()
+        })
+    })
+
+    it('updates the search query when the user location hash changes', async (): Promise<void> => {
+        const PageTitleComponent = (): React.JSX.Element => {
+            const {searchQuery} = useSearchQueryContext()
+
+            return (
+                searchQuery.length > 0
+                    ? <h2>Search Results for "{searchQuery}"</h2>
+                    : <h2>Category Name</h2>
+            )
+        }
+
+        Object.defineProperty(window, 'location', {value: {hash: '#category'}})
+
+        render(
+            <SearchQueryContextProvider>
+                <CurrentCategoryContextProvider categories={rootCategory.children_data}>
+                    <PageTitleComponent/>
+                    <CurrentProductFilterContextProvider>
+                        <LocationHashChangeListener
+                            categories={rootCategory.children_data}
+                            currentPage={1}
+                            setCurrentPage={(): void => {}}
+                        />
+                    </CurrentProductFilterContextProvider>
+                </CurrentCategoryContextProvider>
+            </SearchQueryContextProvider>
+        )
+
+        Object.defineProperty(window, 'location', {value: {hash: '#search?query=test'}})
+
+        await waitFor((): void => {
+            window.dispatchEvent(new Event('hashchange'))
+
+            expect(screen.getByRole('heading', {level: 2, name: /^Search Results/})).toBeInTheDocument()
+        })
+    })
+
     it('updates the current category when the location hash changes', (): void => {
         const CategoryNameComponent = (): React.JSX.Element => {
             const {currentCategory} = useCurrentCategoryContext()
@@ -27,17 +102,19 @@ describe('Location Hash Change Listener Component', (): void => {
         Object.defineProperty(window, 'location', {value: {hash: '#women'}})
 
         render(
-            <CurrentCategoryContextProvider categories={rootCategory.children_data}>
-                <CategoryNameComponent/>
-                <UpdateCurrentCategoryButton/>
-                <CurrentProductFilterContextProvider>
-                    <LocationHashChangeListener
-                        categories={rootCategory.children_data}
-                        currentPage={1}
-                        setCurrentPage={(): void => {}}
-                    />
-                </CurrentProductFilterContextProvider>
-            </CurrentCategoryContextProvider>
+            <SearchQueryContextProvider>
+                <CurrentCategoryContextProvider categories={rootCategory.children_data}>
+                    <CategoryNameComponent/>
+                    <UpdateCurrentCategoryButton/>
+                    <CurrentProductFilterContextProvider>
+                        <LocationHashChangeListener
+                            categories={rootCategory.children_data}
+                            currentPage={1}
+                            setCurrentPage={(): void => {}}
+                        />
+                    </CurrentProductFilterContextProvider>
+                </CurrentCategoryContextProvider>
+            </SearchQueryContextProvider>
         )
 
         fireEvent.click(screen.getByText('Update Category'))
@@ -53,15 +130,17 @@ describe('Location Hash Change Listener Component', (): void => {
         }
 
         render(
-            <CurrentCategoryContextProvider categories={rootCategory.children_data}>
-                <CurrentProductFilterContextProvider>
-                    <LocationHashChangeListener
-                        categories={rootCategory.children_data}
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
-                    />
-                </CurrentProductFilterContextProvider>
-            </CurrentCategoryContextProvider>
+            <SearchQueryContextProvider>
+                <CurrentCategoryContextProvider categories={rootCategory.children_data}>
+                    <CurrentProductFilterContextProvider>
+                        <LocationHashChangeListener
+                            categories={rootCategory.children_data}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                        />
+                    </CurrentProductFilterContextProvider>
+                </CurrentCategoryContextProvider>
+            </SearchQueryContextProvider>
         )
 
         Object.defineProperty(window, 'location', {value: {hash: '#gear/bags?page=2'}})
@@ -88,16 +167,18 @@ describe('Location Hash Change Listener Component', (): void => {
         Object.defineProperty(window, 'location', {value: {hash: '#gear?filter=name&keyword=Joust'}})
 
         render(
-            <CurrentCategoryContextProvider categories={rootCategory.children_data}>
-                <CurrentProductFilterContextProvider>
-                    <CurrentProductFilterContextConsumer/>
-                    <LocationHashChangeListener
-                        categories={rootCategory.children_data}
-                        currentPage={1}
-                        setCurrentPage={(): void => {}}
-                    />
-                </CurrentProductFilterContextProvider>
-            </CurrentCategoryContextProvider>
+            <SearchQueryContextProvider>
+                <CurrentCategoryContextProvider categories={rootCategory.children_data}>
+                    <CurrentProductFilterContextProvider>
+                        <CurrentProductFilterContextConsumer/>
+                        <LocationHashChangeListener
+                            categories={rootCategory.children_data}
+                            currentPage={1}
+                            setCurrentPage={(): void => {}}
+                        />
+                    </CurrentProductFilterContextProvider>
+                </CurrentCategoryContextProvider>
+            </SearchQueryContextProvider>
         )
 
         Object.defineProperty(window, 'location', {value: {hash: '#gear?filter=sku&keyword=24-MB0'}})

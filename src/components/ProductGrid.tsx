@@ -29,7 +29,7 @@ type ProductGridProperties = {
     setCurrentPage: (currentPage: number) => void
 }
 
-export default function ProductGrid({currentPage, setCurrentPage}: ProductGridProperties): React.JSX.Element {
+export default function ProductGrid({currentPage, setCurrentPage}: ProductGridProperties): React.JSX.Element | null {
     const {currentCategory} = useCurrentCategoryContext()
     const {currentProductFilter} = useCurrentProductFilterContext()
     const {isLoadingProducts, products, errorMessage} = useProducts()
@@ -39,6 +39,10 @@ export default function ProductGrid({currentPage, setCurrentPage}: ProductGridPr
         : currentProductFilter.type
     let categoryProducts: Product[] = []
     let productPaginationResult: ProductPaginationResult = {} as ProductPaginationResult
+
+    if (locationHash.length > 0 && locationHash.startsWith('search')) {
+        return null
+    }
 
     if (currentCategory !== null && !isLoadingProducts && errorMessage.length === 0 && products.length > 0) {
         categoryProducts = filterProductsByCategoryId(
