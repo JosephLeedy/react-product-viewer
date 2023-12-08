@@ -2,7 +2,7 @@ import React from 'react'
 import {render, screen} from '@testing-library/react'
 import {SearchQueryContextProvider, useSearchQueryContext} from './SearchQueryContext'
 
-describe('Search Query Context Provider', (): void => {
+describe('Search Query Context', (): void => {
     const originalLocationHash: string = window.location.hash
     const SearchQueryContextConsumer = (): React.JSX.Element | null => {
         const {searchQuery} = useSearchQueryContext()
