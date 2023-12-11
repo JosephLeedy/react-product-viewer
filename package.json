@@ -1,5 +1,5 @@
 {
-  "name": "product-viewer",
+  "name": "@joseph-leedy/product-viewer",
   "private": true,
   "version": "1.0.0",
   "type": "module",
