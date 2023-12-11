@@ -75,6 +75,11 @@ or you'd like to provide feedback or suggestions for improvement, please open a
 This application is licensed under the MIT license. Please see [LICENSE] for
 details.
 
+## Changelog
+
+A record of all the changes made to this application can be found in the
+[Changelog] document.
+
 ## Future Plans
 
 For a list of features that might be added or learning topics which might be
@@ -82,6 +87,7 @@ explored in future application revisions, please see the [Phase II][plans]
 document.
 
 [LICENSE]: ./LICENSE
+[Changelog]: ./CHANGELOG.md
 [plans]: ./docs/PhaseII.md
 [repo]: https://github.com/JosephLeedy/react-product-viewer
 [issues]: https://github.com/JosephLeedy/react-product-viewer/issues
