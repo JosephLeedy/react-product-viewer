@@ -10,7 +10,7 @@ export default function Footer(): React.JSX.Element {
             <Container>
                 <Row className="align-items-center">
                     <Col>
-                        <p>Copyright &copy; {(new Date()).getFullYear().toString()}. Licensed under the <a href="https://opensource.org/license/mit/" target="_blank">MIT</a> license.</p>
+                        <p>Copyright &copy; {(new Date()).getFullYear().toString()}. Licensed under the <a href="https://joseph-leedy.mit-license.org/" target="_blank">MIT</a> license.</p>
                     </Col>
                     <Col className="d-flex justify-content-end">
                         <p><a href="https://github.com/JosephLeedy/react-product-viewer" target="_blank" title="View project on GitHub" className="link-dark"><Github size={24}/></a></p>
