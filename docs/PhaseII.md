@@ -17,4 +17,4 @@
 14. Add route to show all products in catalog (hidden? menu item?)
 15. Add ellipsis to pagination toolbar if page count greater than X
 16. Add an Error Boundary to handle uncaught exceptions
-17. 
+17. Implement an automated CI/CD process for building and testing using GitHub Actions
