@@ -1,0 +1,109 @@
+import crypto from 'crypto'
+import redisClient from '../backend/redisClient'
+import {OauthCredentials, OauthRequestParameters, OauthToken} from '../types/Oauth'
+
+export function buildOauthAuthorizationHeader(
+    httpMethod: string,
+    oauthCredentials: OauthCredentials,
+    requestUrl: string,
+    requestToken: OauthToken | null = null
+): string {
+    const requestParameters: OauthRequestParameters = {
+        oauth_consumer_key: oauthCredentials.oauth_consumer_key,
+        oauth_nonce: crypto.randomUUID().replace(/-/g, ''),
+        oauth_signature_method: 'HMAC-SHA256',
+        oauth_timestamp: Math.floor(Date.now() / 1000).toString(10),
+        oauth_token: requestToken?.oauth_token ?? null,
+        oauth_verifier: requestToken !== null ? oauthCredentials.oauth_verifier : null,
+        oauth_version: '1.0'
+    }
+    const parameters: [string, string][] = (
+            Object.entries(requestParameters).filter(([_key, value]): boolean => value !== null) as [string, string][]
+        ).sort(
+            (parameterA: [string, string], parameterB: [string, string]): number => {
+                return parameterA[0] < parameterB[0] ? -1 : 1
+            }
+        )
+    const url: URL = new URL(requestUrl)
+    const searchParameters: string = Array.from(url.searchParams.entries())
+        .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+        .join('&')
+    const signatureParameters: string = parameters.map(([key, value]): string => `${key}=${value}`).join('&')
+        + (searchParameters.length > 0 ? '&' + searchParameters : '')
+    const signature: string = `${httpMethod.toUpperCase()}&`
+        + encodeURIComponent(`${url.protocol}//${url.host}${url.pathname}`) + '&'
+        + encodeURIComponent(signatureParameters)
+    const hashedSignature = crypto.createHmac(
+            'sha256',
+            encodeURIComponent(oauthCredentials.oauth_consumer_secret) + '&'
+                + encodeURIComponent(requestToken?.oauth_token_secret ?? '')
+        ).update(signature, 'binary')
+        .digest()
+        .toString('base64')
+
+    parameters.push([
+        'oauth_signature',
+        hashedSignature
+    ])
+
+    return 'OAuth '
+        + parameters.sort(
+            (parameterA: [string, string], parameterB: [string, string]): number => {
+                return parameterA[0] < parameterB[0] ? -1 : 1
+            }
+        ).map(([key, value]): string => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+        .join(', ')
+}
+
+export async function fetchAndStoreOauthToken(
+    oauthCredentials: OauthCredentials,
+    requestToken: OauthToken | null = null
+): Promise<OauthToken | null> {
+    const requestUrl: string = oauthCredentials.store_base_url
+        + (requestToken === null ? 'oauth/token/request' : 'oauth/token/access')
+    const authorizationHeader: string = buildOauthAuthorizationHeader(
+            'POST',
+            oauthCredentials,
+            requestUrl,
+            requestToken
+        )
+    const redisSubKey: string = requestToken === null ? 'REQUEST_TOKEN' : 'API_TOKEN'
+    let response: Response
+    let responseText: string
+    let responseTextParameters: URLSearchParams
+    let oauthToken: OauthToken | null = null
+
+    try {
+        response = await fetch(
+            requestUrl,
+            {
+                method: 'POST',
+                headers: {
+                    Authorization: authorizationHeader
+                }
+            }
+        )
+        responseText = await response.text()
+        responseTextParameters = new URLSearchParams(responseText)
+
+        if (!response.ok) {
+            console.error(
+                `\nCould not get %s token from Magento API. HTTP Status: %i %s. Error: %s\n`,
+                requestToken === null ? 'request' : 'api',
+                response.status,
+                response.statusText,
+                responseTextParameters.get('oauth_problem') ?? ''
+            )
+
+            return null
+        }
+
+        oauthToken = Object.fromEntries(responseTextParameters.entries()) as OauthToken
+
+        await redisClient.hSet(`PRODUCT_VIEWER:OAUTH:${redisSubKey}`, oauthToken)
+    } catch (error: unknown) {
+        console.error(error)
+    }
+
+    return oauthToken
+}
