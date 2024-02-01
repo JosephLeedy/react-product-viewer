@@ -71,7 +71,7 @@ describe('useProducts Hook', (): void => {
                 ok: false,
                 status: status,
                 statusText: statusText,
-                json: async (): Promise<ProductsResponse> => ({items: [], total_count: 0}),
+                json: (): Promise<ProductsResponse> => Promise.resolve({items: [], total_count: 0}),
             } as Response)
         })
 
