@@ -13,8 +13,12 @@ export default function useProducts(): UseProducts {
     const [products, setProducts] = useState<Product[]>([])
     const [errorMessage, setErrorMessage] = useState<string>('')
     const loadProducts = async (): Promise<void> => {
-        await fetch('/data/products.json')
-            .then(async (response: Response): Promise<void> => {
+        await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/catalog/products/`
+                + 'searchCriteria[filterGroups][0][filters][0][field]=type_id'
+                + '&searchCriteria[filterGroups][0][filters][0][value]=configurable,bundle,grouped'
+                + '&searchCriteria[filterGroups][0][filters][0][condition_type]=nin'
+            ).then(async (response: Response): Promise<void> => {
                 if (!response.ok) {
                     throw new Error(`${response.status} ${response.statusText}`)
                 }
