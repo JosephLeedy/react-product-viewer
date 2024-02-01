@@ -17,7 +17,7 @@ describe('useProducts Hook', (): void => {
             } as Response)
         })
 
-        const {result} = renderHook(useProducts)
+        const {result} = renderHook(() => useProducts(0))
 
         expect(result.current.isLoadingProducts).toEqual(true)
 
@@ -61,7 +61,7 @@ describe('useProducts Hook', (): void => {
             } as Response)
         })
 
-        const {result} = renderHook(useProducts)
+        const {result} = renderHook(() => useProducts(0))
 
         await waitFor((): void => {
             expect(result.current.isLoadingProducts).toEqual(false)
@@ -76,7 +76,7 @@ describe('useProducts Hook', (): void => {
             (): Promise<never> => Promise.reject(new TypeError('Invalid header name.'))
         )
 
-        const {result} = renderHook(useProducts)
+        const {result} = renderHook(() => useProducts(0))
 
         await waitFor((): void => {
             expect(result.current.isLoadingProducts).toEqual(false)

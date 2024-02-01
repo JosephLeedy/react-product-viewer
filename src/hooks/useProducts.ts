@@ -8,17 +8,25 @@ type UseProducts = {
     errorMessage: string
 }
 
-export default function useProducts(): UseProducts {
+export default function useProducts(categoryId: number): UseProducts {
     const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(true)
     const [products, setProducts] = useState<Product[]>([])
     const [errorMessage, setErrorMessage] = useState<string>('')
     const loadProducts = async (): Promise<void> => {
-        await fetch(
-                `${import.meta.env.VITE_BACKEND_URL}/catalog/products/`
-                + 'searchCriteria[filterGroups][0][filters][0][field]=type_id'
-                + '&searchCriteria[filterGroups][0][filters][0][value]=configurable,bundle,grouped'
-                + '&searchCriteria[filterGroups][0][filters][0][condition_type]=nin'
-            ).then(async (response: Response): Promise<void> => {
+        let apiUrl: string = `${import.meta.env.VITE_BACKEND_URL}/catalog/products/`
+
+        if (categoryId !== 0) {
+            apiUrl += 'searchCriteria[filterGroups][0][filters][0][field]=category_id'
+                + `&searchCriteria[filterGroups][0][filters][0][value]=${categoryId}`
+                + '&'
+        }
+
+        apiUrl += `searchCriteria[filterGroups][1][filters][0][field]=type_id`
+            + `&searchCriteria[filterGroups][1][filters][0][value]=configurable,bundle,grouped`
+            + `&searchCriteria[filterGroups][1][filters][0][condition_type]=nin`
+
+        await fetch(apiUrl)
+            .then(async (response: Response): Promise<void> => {
                 if (!response.ok) {
                     throw new Error(`${response.status} ${response.statusText}`)
                 }
@@ -32,8 +40,12 @@ export default function useProducts(): UseProducts {
     }
 
     useEffect((): void => {
+        if (categoryId === -1) {
+            return
+        }
+
         loadProducts()
-    }, [])
+    }, [categoryId])
 
     return {
         isLoadingProducts,
