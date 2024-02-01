@@ -15,6 +15,9 @@ export default function useProducts(categoryId: number): UseProducts {
     const loadProducts = async (): Promise<void> => {
         let apiUrl: string = `${import.meta.env.VITE_BACKEND_URL}/catalog/products/`
 
+        setErrorMessage('')
+        setIsLoadingProducts(true)
+
         if (categoryId !== 0) {
             apiUrl += 'searchCriteria[filterGroups][0][filters][0][field]=category_id'
                 + `&searchCriteria[filterGroups][0][filters][0][value]=${categoryId}`
