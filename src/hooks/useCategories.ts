@@ -10,7 +10,7 @@ export default function useCategories(): UseCategories {
     const [isLoadingCategories, setIsLoadingCategories] = useState<boolean>(true)
     const [categories, setCategories] = useState<Category[]>([])
     const loadCategories = async (): Promise<void> => {
-        await fetch('/data/categories.json')
+        await fetch(`${import.meta.env.VITE_BACKEND_URL}/catalog/categories`)
             .then(async (response: Response): Promise<void> => {
                 let rootCategory: Category
 
