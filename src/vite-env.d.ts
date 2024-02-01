@@ -5,6 +5,7 @@ interface ImportMetaEnv {
     readonly VITE_MAGENTO_IMAGE_URL: string
     readonly VITE_MAGENTO_PLACEHOLDER_IMAGE_URL: string
     readonly VITE_MAGENTO_URI_SUFFIX: string
+    readonly VITE_BACKEND_URL: string
 }
 
 interface ImportMeta {
