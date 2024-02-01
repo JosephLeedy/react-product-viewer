@@ -1,5 +1,6 @@
 import {renderHook, waitFor} from '@testing-library/react'
 import useProducts from './useProducts'
+import type Product from '../types/Product'
 import type {ProductsResponse} from '../types/Product'
 import productsResponse, {items as products} from '../test/data/products.json'
 
@@ -9,15 +10,28 @@ describe('useProducts Hook', (): void => {
     })
 
     it('fetches product data', async (): Promise<void> => {
-        vi.spyOn(global, 'fetch').mockImplementation((): Promise<Response> => {
-            return Promise.resolve({
-                ok: true,
-                status: 200,
-                json: async (): Promise<ProductsResponse> => productsResponse as ProductsResponse,
-            } as Response)
+        const fetchMock = vi.spyOn(global, 'fetch')
+        const paginatedProductsResponses: ProductsResponse[] = []
+        let i: number
+
+        for (i = 0; i < productsResponse.items.length; i += 10) {
+            paginatedProductsResponses.push({
+                items: productsResponse.items.slice(i, i + 10) as Product[],
+                total_count: productsResponse.total_count
+            })
+        }
+
+        paginatedProductsResponses.forEach((paginatedProductsResponse: ProductsResponse) => {
+            fetchMock.mockImplementationOnce((): Promise<Response> => {
+                return Promise.resolve({
+                    ok: true,
+                    status: 200,
+                    json: (): Promise<ProductsResponse> => Promise.resolve(paginatedProductsResponse)
+                } as Response)
+            })
         })
 
-        const {result} = renderHook(() => useProducts(0))
+        const {result} = renderHook(() => useProducts(0, 1, 10))
 
         expect(result.current.isLoadingProducts).toEqual(true)
 
@@ -61,7 +75,7 @@ describe('useProducts Hook', (): void => {
             } as Response)
         })
 
-        const {result} = renderHook(() => useProducts(0))
+        const {result} = renderHook(() => useProducts(0, 1, 10))
 
         await waitFor((): void => {
             expect(result.current.isLoadingProducts).toEqual(false)
@@ -76,7 +90,7 @@ describe('useProducts Hook', (): void => {
             (): Promise<never> => Promise.reject(new TypeError('Invalid header name.'))
         )
 
-        const {result} = renderHook(() => useProducts(0))
+        const {result} = renderHook(() => useProducts(0, 1, 10))
 
         await waitFor((): void => {
             expect(result.current.isLoadingProducts).toEqual(false)
