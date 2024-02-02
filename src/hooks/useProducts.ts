@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import type Product from '../types/Product'
 import type {ProductsResponse} from '../types/Product'
 
@@ -8,9 +8,14 @@ type UseProducts = {
     errorMessage: string
 }
 
+type ProductsCache = {
+    [categoryId: number]: Product[]
+}
+
 export default function useProducts(categoryId: number, page: number = 1, limit: number = 30): UseProducts {
     const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(true)
     const [products, setProducts] = useState<Product[]>([])
+    const productsCache: React.MutableRefObject<ProductsCache> = useRef<ProductsCache>({})
     const [errorMessage, setErrorMessage] = useState<string>('')
     const loadProducts = async (): Promise<void> => {
         const products: Product[] = []
@@ -22,6 +27,13 @@ export default function useProducts(categoryId: number, page: number = 1, limit:
 
         setErrorMessage('')
         setIsLoadingProducts(true)
+
+        if (categoryId in productsCache.current) {
+            setProducts(productsCache.current[categoryId])
+            setIsLoadingProducts(false)
+
+            return
+        }
 
         do {
             apiUrl = `${import.meta.env.VITE_BACKEND_URL}/catalog/products/`
@@ -54,6 +66,8 @@ export default function useProducts(categoryId: number, page: number = 1, limit:
                 }
 
                 products.push(...productsResponse.items)
+
+                productsCache.current[categoryId] = products
 
                 totalPages = Math.ceil(productsResponse.total_count / limit)
 
