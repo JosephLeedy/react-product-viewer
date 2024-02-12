@@ -15,8 +15,8 @@ type ProductsCache = {
 export default function useProducts(categoryId: number, page: number = 1, limit: number = 30): UseProducts {
     const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(true)
     const [products, setProducts] = useState<Product[]>([])
-    const productsCache: React.MutableRefObject<ProductsCache> = useRef<ProductsCache>({})
     const [errorMessage, setErrorMessage] = useState<string>('')
+    const productsCache: React.MutableRefObject<ProductsCache> = useRef<ProductsCache>({})
     const loadProducts = async (): Promise<void> => {
         const products: Product[] = []
         let currentPage: number = page
