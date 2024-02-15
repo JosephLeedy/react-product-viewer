@@ -32,7 +32,7 @@ type ProductGridProperties = {
 export default function ProductGrid({currentPage, setCurrentPage}: ProductGridProperties): React.JSX.Element | null {
     const {currentCategory} = useCurrentCategoryContext()
     const {currentProductFilter} = useCurrentProductFilterContext()
-    const {isLoadingProducts, products, errorMessage} = useProducts()
+    const {isLoadingProducts, products, errorMessage} = useProducts(currentCategory?.id ?? -1)
     const locationHash: string = window.location.hash.match(/#?([^?]*)\??/)![1]
     const filterTypeLabel: string = currentProductFilter.type === ProductFilterType.SKU
         ? 'SKU'

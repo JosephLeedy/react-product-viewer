@@ -28,7 +28,7 @@ export default function SearchResults(
 ): React.JSX.Element | null {
     const [isHidden, setIsHidden] = useState<boolean>(false)
     const {searchQuery} = useSearchQueryContext()
-    const {products, isLoadingProducts, errorMessage} = useProducts()
+    const {products, isLoadingProducts, errorMessage} = useProducts(0)
     let productPaginationResult: ProductPaginationResult = {} as ProductPaginationResult
     let foundProducts: Product[] = []
 

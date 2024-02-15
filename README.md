@@ -45,12 +45,13 @@ command:
 The following settings _must_ be configured in order for the application to
 function properly:
 
-| Name                               | Default | Description                                               |
-|------------------------------------|---------|-----------------------------------------------------------|
-| VITE_MAGENTO_BASE_URL              | ""      | Base URL of the connected Magento or Adobe Commerce store |
-| VITE_MAGENTO_IMAGE_URL             | ""      | URL where product images are located                      |
-| VITE_MAGENTO_PLACEHOLDER_IMAGE_URL | ""      | URL where the product placeholder image is located        |
-| VITE_MAGENTO_URI_SUFFIX            | ""      | String to append to Magento Catalog URLs                  |
+| Name                               | Default | Description                                                                                          |
+|------------------------------------|---------|------------------------------------------------------------------------------------------------------|
+| VITE_MAGENTO_BASE_URL              | ""      | Base URL of the connected Magento or Adobe Commerce store                                            |
+| VITE_MAGENTO_IMAGE_URL             | ""      | URL where product images are located                                                                 |
+| VITE_MAGENTO_PLACEHOLDER_IMAGE_URL | ""      | URL where the product placeholder image is located                                                   |
+| VITE_MAGENTO_URI_SUFFIX            | ""      | String to append to Magento Catalog URLs                                                             |
+| VITE_BACKEND_URL                   | ""      | URL of the backend application used to fetch data from the connected Magento or Adobe Commerce store |
 
 Configuration can be set `.env`, `.env.local`, `.env.development` or
 `.env.production` depending on which environment you are configuring. (See

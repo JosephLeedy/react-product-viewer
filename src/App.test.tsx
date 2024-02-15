@@ -23,9 +23,11 @@ describe("Application Component", (): void => {
         const useCategoriesReturnValue: {
             isLoadingCategories: boolean,
             categories: Category[]
+            errorMessage: string
         } = {
             isLoadingCategories: false,
-            categories: rootCategory.children_data
+            categories: rootCategory.children_data,
+            errorMessage: ''
         }
         const useProductsReturnValue: {
             isLoadingProducts: boolean,
@@ -67,5 +69,25 @@ describe("Application Component", (): void => {
         await waitFor((): void => {
             expect(screen.getByTestId('page-footer')).toBeInTheDocument()
         })
+    })
+
+    it('renders an error if categories cannot be loaded', (): void => {
+        const useCategoriesReturnValue: {
+            isLoadingCategories: boolean,
+            categories: Category[]
+            errorMessage: string
+        } = {
+            isLoadingCategories: false,
+            categories: [],
+            errorMessage: 'Could not load categories. Error: "NetworkError when attempting to fetch resource."'
+        }
+
+        vi.mocked(useCategories)
+            .mockReset()
+            .mockReturnValue(useCategoriesReturnValue)
+
+        render(<App/>)
+
+        expect(screen.getByText(/^Could not load categories/)).toBeInTheDocument()
     })
 })

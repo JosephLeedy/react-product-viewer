@@ -28,24 +28,40 @@ describe('useCategories Hook', (): void => {
         expect(result.current.categories).toEqual(rootCategory.children_data)
     })
 
-    it('logs an error if categories cannot be fetched', async (): Promise<void> => {
+    // noinspection JSUnusedLocalSymbols
+    it.each([
+        {
+            messageType: 'API error',
+            returnedJson: {
+                message: 'The token length is invalid. Check the length and try again.'
+            },
+            expectedErrorMessage: 'Could not load categories. Error: "The token length is invalid. Check the length '
+                + 'and try again."'
+        },
+        {
+            messageType: 'error code and status',
+            returnedJson: {},
+            expectedErrorMessage: 'Could not load categories. Response: 400 Bad Request'
+        }
+    ])('returns an error message with an $messageType if categories cannot be fetched',
+        // @ts-ignore
+        async ({messageType, returnedJson, expectedErrorMessage}): Promise<void> => {
         vi.spyOn(global, 'fetch').mockImplementation((): Promise<Response> => {
             return Promise.resolve({
                 ok: false,
                 status: 400,
                 statusText: 'Bad Request',
-                json: async (): Promise<object> => ({}),
+                json: (): Promise<object> => Promise.resolve(returnedJson),
             } as Response)
         })
 
-        const consoleMock = vi.spyOn(console, 'log').mockImplementation(() => undefined)
         const {result} = renderHook(useCategories)
 
         await waitFor((): void => {
             expect(result.current.isLoadingCategories).toEqual(false)
         })
 
-        expect(consoleMock).toBeCalledWith(new Error('Could not load categories. Response: 400 Bad Request'))
+        expect(result.current.errorMessage).toEqual(expectedErrorMessage)
         expect(result.current.categories).toEqual([])
     })
 })
