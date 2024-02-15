@@ -1,6 +1,6 @@
 # Feature Ideas for Phase II (and beyond)
 
-0. Use Magento API to fetch categories and products
+0. ~~Use Magento API to fetch categories and products~~
 1. Append product options as key-value pairs to location hash in URL for Buy button (e.g. "#155=169&93=58")
 2. Show full product description in lightbox ("Read More" link in overlay as trigger)
 3. Test performance and optimize where needed
