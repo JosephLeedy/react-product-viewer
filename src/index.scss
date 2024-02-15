@@ -1,5 +1,7 @@
 #root {
-  min-height: 100vh;
+  &:has(.footer) {
+    min-height: 100vh;
+  }
 
   > footer {
     position: sticky;
