@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog][kac], and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- Replaced category and product JSON files with calls to a backend catalog API
+
 ## [1.0.0] - 2023-12-11
 
 ### Added
