@@ -18,27 +18,26 @@ const CurrentCategoryContext: React.Context<CurrentCategoryContextValue | undefi
 export function CurrentCategoryContextProvider(
     {categories, children}: CurrentCategoryContextProperties
 ): React.JSX.Element | null {
-    const locationHashSegments: string[] = window.location.hash.match(/#?([^?]*)\??/)![1].split('/')
-    let currentCategoryFromLocationHash: Category | null = null
-    let currentCategory: Category | null
-    let setCurrentCategory: Dispatch<SetStateAction<Category | null>>
-    let value: CurrentCategoryContextValue
+    const setInitialCurrentCategory = (): Category | null => {
+        const locationHashSegments: string[] = window.location.hash.match(/#?([^?]*)\??/)![1].split('/')
+
+        removeReservedUrisFromLocationHash(locationHashSegments)
+
+        if (categories.length === 0 || locationHashSegments.length === 0 || locationHashSegments[0] === '') {
+            return null
+        }
+
+        return findCategoryByLocationHash(categories, locationHashSegments)
+    }
+    const [currentCategory, setCurrentCategory] = useState<Category | null>(setInitialCurrentCategory)
+    const value: CurrentCategoryContextValue = useMemo((): CurrentCategoryContextValue => ({
+        currentCategory,
+        setCurrentCategory
+    }), [currentCategory])
 
     if (categories.length === 0) {
         return null
     }
-
-    removeReservedUrisFromLocationHash(locationHashSegments)
-
-    if (categories.length !== 0 && locationHashSegments.length > 0 && locationHashSegments[0] !== '') {
-        currentCategoryFromLocationHash = findCategoryByLocationHash(categories, locationHashSegments)
-    }
-
-    [currentCategory, setCurrentCategory] = useState<Category | null>(currentCategoryFromLocationHash)
-    value = useMemo((): CurrentCategoryContextValue => ({
-        currentCategory,
-        setCurrentCategory
-    }), [currentCategory])
 
     return (
         <CurrentCategoryContext.Provider value={value}>

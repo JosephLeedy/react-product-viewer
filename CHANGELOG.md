@@ -14,6 +14,8 @@ component to the main application component
 
 ### Fixed
 - Scrollbars are no longer shown when page footer is not present 
+- Refactored the Current Category Context Provider to set its default value 
+using a function rather than setting it after the check for provided categories 
 
 ### Removed
 - The Categories Context no longer tracks whether the categories have been 
