@@ -2,11 +2,9 @@ import React, {createContext, useContext} from 'react'
 import type Category from '../types/Category'
 
 type CategoriesContextValue = {
-    isLoadingCategories: boolean
     categories: Category[]
 }
 type CategoriesContextProperties = {
-    isLoadingCategories: boolean
     categories: Category[]
     children: React.ReactNode
 }

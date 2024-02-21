@@ -36,7 +36,7 @@ describe('Category Menu Component', (): void => {
         let categoryName: string
 
         render(
-            <CategoriesContextProvider isLoadingCategories={false} categories={categories.children_data}>
+            <CategoriesContextProvider categories={categories.children_data}>
                 <CategoryMenu/>
             </CategoriesContextProvider>
         )

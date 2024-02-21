@@ -11,7 +11,7 @@ describe('Categories Context', (): void => {
         }
 
         render(
-            <CategoriesContextProvider isLoadingCategories={false} categories={rootCategory.children_data}>
+            <CategoriesContextProvider categories={rootCategory.children_data}>
                 <CategoriesContextConsumer/>
             </CategoriesContextProvider>
         )

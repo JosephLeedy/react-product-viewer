@@ -15,6 +15,10 @@ component to the main application component
 ### Fixed
 - Scrollbars are no longer shown when page footer is not present 
 
+### Removed
+- The Categories Context no longer tracks whether the categories have been 
+loaded
+
 ## [1.0.0] - 2023-12-11
 
 ### Added

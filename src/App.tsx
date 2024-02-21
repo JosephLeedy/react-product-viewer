@@ -60,7 +60,7 @@ export default function App(): React.JSX.Element {
 
     return (
         <>
-            <CategoriesContextProvider isLoadingCategories={isLoadingCategories} categories={categories}>
+            <CategoriesContextProvider categories={categories}>
                 <SearchQueryContextProvider>
                     <Navigation/>
                     <SearchResults currentPage={currentPage} setCurrentPage={setCurrentPage}/>

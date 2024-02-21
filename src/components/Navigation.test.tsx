@@ -7,7 +7,7 @@ import rootCategory from '../test/data/categories.json'
 describe('Navigation Component', (): void => {
     it('renders the app name as a main heading', (): void => {
         render(
-            <CategoriesContextProvider isLoadingCategories={false} categories={rootCategory.children_data}>
+            <CategoriesContextProvider categories={rootCategory.children_data}>
                 <SearchQueryContextProvider>
                     <Navigation/>
                 </SearchQueryContextProvider>
@@ -19,7 +19,7 @@ describe('Navigation Component', (): void => {
 
     it('renders a navigation menu', (): void => {
         render(
-            <CategoriesContextProvider isLoadingCategories={false} categories={rootCategory.children_data}>
+            <CategoriesContextProvider categories={rootCategory.children_data}>
                 <SearchQueryContextProvider>
                     <Navigation/>
                 </SearchQueryContextProvider>
@@ -31,7 +31,7 @@ describe('Navigation Component', (): void => {
 
     it('renders a search form', (): void => {
         render(
-            <CategoriesContextProvider isLoadingCategories={false} categories={rootCategory.children_data}>
+            <CategoriesContextProvider categories={rootCategory.children_data}>
                 <SearchQueryContextProvider>
                     <Navigation/>
                 </SearchQueryContextProvider>
