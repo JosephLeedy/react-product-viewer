@@ -5,21 +5,6 @@ import type Category from '../../types/Category'
 import categories from '../../test/data/categories.json'
 
 describe('Category Menu Component', (): void => {
-    it('renders a loading indicator until categories are fetched', async (): Promise<void> => {
-        let loadingIndicator: HTMLElement
-
-        render(
-            <CategoriesContextProvider isLoadingCategories={true} categories={[]}>
-                <CategoryMenu/>
-            </CategoriesContextProvider>
-        )
-
-        loadingIndicator = screen.getByTestId('categories-loading-indicator')
-
-        expect(loadingIndicator).toBeInTheDocument()
-        expect(screen.getByText('Loading categories...')).toBeInTheDocument()
-    })
-
     it('renders fetched categories as menu items', async (): Promise<void> => {
         const filterCategories = (unfilteredCategories: Category[]) => unfilteredCategories.filter(
             (category: Category): boolean => {

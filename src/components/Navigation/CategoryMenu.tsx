@@ -1,11 +1,10 @@
 import React from 'react'
-import Spinner from 'react-bootstrap/Spinner'
 import {useCategoriesContext} from '../../contexts/CategoriesContext'
 import {convertTitleToUri} from '../../utilities/UriConverter'
 import type Category from '../../types/Category'
 
 export default function CategoryMenu(): React.JSX.Element | null {
-    const {isLoadingCategories, categories} = useCategoriesContext()
+    const {categories} = useCategoriesContext()
     const renderCategoryMenuItems = (
         category: Category,
         isDropdownItem: boolean = false,
@@ -91,20 +90,8 @@ export default function CategoryMenu(): React.JSX.Element | null {
     }
 
     return (
-        <>
-            <div className="me-auto">
-                {
-                    isLoadingCategories
-                        ?
-                            <Spinner animation="border" role="status" data-testid="categories-loading-indicator">
-                                <span className="visually-hidden">Loading categories...</span>
-                            </Spinner>
-                        :
-                            <ul className="navbar-nav" data-testid="category-menu">
-                                {categories.map((category: Category) => renderCategoryMenuItems(category))}
-                            </ul>
-                }
-            </div>
-        </>
+        <ul className="navbar-nav me-auto" data-testid="category-menu">
+            {categories.map((category: Category) => renderCategoryMenuItems(category))}
+        </ul>
     )
 }

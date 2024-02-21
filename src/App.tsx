@@ -8,6 +8,7 @@ import Container from 'react-bootstrap/Container'
 import Alert from 'react-bootstrap/Alert'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
+import Spinner from 'react-bootstrap/Spinner'
 import {XCircleFill} from 'react-bootstrap-icons'
 import Navigation from './components/Navigation'
 import SearchResults from './components/SearchResults'
@@ -21,6 +22,21 @@ export default function App(): React.JSX.Element {
     const queryParameters: string = window.location.hash.substring(window.location.hash.indexOf('?'))
     const startingPage: number = parseInt(new URLSearchParams(queryParameters).get('page') ?? '1', 10)
     const [currentPage, setCurrentPage] = useState<number>(startingPage)
+
+    if (isLoadingCategories) {
+        return (
+            <Container as="main" className="mt-5" data-testid="page-body">
+                <Row className="align-items-center">
+                    <Col xs="auto">
+                        <Spinner animation="border" role="status" aria-labelledby="loading-categories-label"/>
+                    </Col>
+                    <Col xs={10} className="p-0">
+                        <span id="loading-categories-label">Loading categories...</span>
+                    </Col>
+                </Row>
+            </Container>
+        )
+    }
 
     if (categoriesErrorMessage.length > 0) {
         console.error(categoriesErrorMessage)

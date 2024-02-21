@@ -71,6 +71,27 @@ describe("Application Component", (): void => {
         })
     })
 
+    it('renders a loading indicator until categories have been fetched', async (): Promise<void> => {
+        const useCategoriesReturnValue: {
+            isLoadingCategories: boolean,
+            categories: Category[]
+            errorMessage: string
+        } = {
+            isLoadingCategories: true,
+            categories: rootCategory.children_data,
+            errorMessage: ''
+        }
+
+        vi.mocked(useCategories)
+            .mockReset()
+            .mockReturnValue(useCategoriesReturnValue)
+
+        render(<App/>)
+
+        expect(screen.getByRole('status')).toBeInTheDocument()
+        expect(screen.getByText('Loading categories...')).toBeInTheDocument()
+    })
+
     it('renders an error if categories cannot be loaded', (): void => {
         const useCategoriesReturnValue: {
             isLoadingCategories: boolean,

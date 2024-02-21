@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog][kac], and this project adheres to
 
 ### Changed
 - Replaced category and product JSON files with calls to a backend catalog API
+- The categories loading spinner has been moved from the Category Menu 
+component to the main application component
 
 ### Fixed
 - Scrollbars are no longer shown when page footer is not present 
